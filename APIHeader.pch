@@ -1,0 +1,167 @@
+//
+//  APIHeader.pch
+//
+//  Created by SADF on 17/3/13.
+//  Copyright © 2017年 Hale. All rights reserved.
+//
+
+#ifndef APIHeader_pch
+#define APIHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#pragma mark - url
+#ifdef DEBUG
+//测试
+//#define kURL_I @"http://192.168.0.150:8080"
+#define kURL_I @"http://api.yogobei.com"
+#define kURL [NSString stringWithFormat:@"%@/", kURL_I]
+#else
+//正式
+#define kURL_I @"http://api.yogobei.com:8080"
+#define kURL [NSString stringWithFormat:@"%@/", kURL_I]
+#endif
+
+//#ifdef DEBUG
+////测试
+//#define kURL_USER_ID @"1"
+//#else
+////正式
+#define kURL_USER_ID [GVUserDefaults standardUserDefaults].ygbUserId
+//#endif
+
+
+#define kURL_app(_other) [NSString stringWithFormat:@"%@%@", kURL, _other]
+
+//banner
+#define kURL_Banner_Str(_url) [NSString stringWithFormat:@"%@/image/%@", kURL, _url]
+#define kURL_Banner_Url(_url) [NSURL URLWithString:[NSString stringWithFormat:@"%@/image/%@", kURL, _url]]
+//图片url
+#define kURL_Image_Str(_url) [NSString stringWithFormat:@"%@/logo/%@", kURL, _url]
+#define kURL_Image_Url(_url) [NSURL URLWithString:[NSString stringWithFormat:@"%@/ygb/logo/%@", kURL, _url]]
+//身份证
+#define kURL_IdCard_Str(_url) [NSString stringWithFormat:@"%@/idcard/%@", kURL, _url]
+#define kURL_IdCard_Url(_url) [NSURL URLWithString:[NSString stringWithFormat:@"%@/idcard/%@", kURL, _url]]
+//证书
+#define kURL_Certificate_Str(_url) [NSString stringWithFormat:@"%@/certificate/%@", kURL, _url]
+#define kURL_Certificate_Url(_url) [NSURL URLWithString:[NSString stringWithFormat:@"%@/certificate/%@", kURL, _url]]
+//等待图片
+#define kPlaceholderImage [UIImage imageNamed:@"zhanweitu"]
+#define kPlaceholderUserImage [UIImage imageNamed:@"list_icon_user"]
+//上传压缩率
+#define kQuality 1
+
+
+
+//0.获取系统参数数据字典
+#define kURL_GetAppConfig [NSString stringWithFormat:@"%@systemController.do?getAppConfig",kURL]
+//1.1获取登录验证码
+#define kURL_SendLoginMessage [NSString stringWithFormat:@"%@memberAppController.do?sendLoginMessage",kURL]
+//1.2用户登录
+#define kURL_LoginCheck [NSString stringWithFormat:@"%@memberAppController.do?loginCheck",kURL]
+//1.3获取验证码
+#define kURL_CodeMessage [NSString stringWithFormat:@"%@memberAppController.do?codeMessage",kURL]
+//1.4校验验证码
+#define kURL_CodeCheck [NSString stringWithFormat:@"%@memberAppController.do?codeCheck",kURL]
+#pragma mark - 一级页面
+//2.1 获取一级页面
+#define kURL_GetFirstView [NSString stringWithFormat:@"%@memberAppController.do?findInfo",kURL]
+//2.2获取home页数据
+#define kURL_HomeInfo [NSString stringWithFormat:@"%@memberAppController.do?findSecond",kURL]
+
+#pragma mark 需求
+//3.1获取需求列表息（分页）
+#define kURL_GetDemandList [NSString stringWithFormat:@"%@jobController.do?getDemandList",kURL]
+//3.1.1获取需求列表息（20条）
+#define kURL_GetDemandListLimit [NSString stringWithFormat:@"%@jobController.do?getDemandListLimit",kURL]
+//3.2获取需求订单详情
+#define kURL_GetDemandDetail [NSString stringWithFormat:@"%@jobController.do?getDemandDetail",kURL]
+//3.3 用工家教抢单
+#define kURL_Joborder [NSString stringWithFormat:@"%@jobController.do?joborder",kURL]
+//3.4 填写用户信息（完善资料） 跟5.15用一个
+#define kURL_UpdateInfo [NSString stringWithFormat:@"%@memberAppController.do?updateInfo",kURL]
+//3.5取消订单 3.5.1 共用
+#define kURL_Canceldemand [NSString stringWithFormat:@"%@jobController.do?cancelorder",kURL]
+//3.6开始施工/家教
+#define kURL_Startorder [NSString stringWithFormat:@"%@jobController.do?startorder",kURL]
+//3.6.1施工/家教完成
+#define kURL_Finishorder [NSString stringWithFormat:@"%@jobController.do?finishorder",kURL]
+//3.7 新增用工需求订单
+#define kURL_Addygorder [NSString stringWithFormat:@"%@jobController.do?addygorder",kURL]
+//3.8 订单付款
+#define kURL_Payhorder [NSString stringWithFormat:@"%@jobController.do?payhorder",kURL]
+//3.9 新增家教需求订单
+#define kURL_Addjjorder [NSString stringWithFormat:@"%@jobController.do?addjjorder",kURL]
+//需求列表筛选
+#define kURL_getDemandList2 [NSString stringWithFormat:@"%@jobController.do?findorder",kURL]
+
+#pragma mark - 我的
+//5.1.获取个人信息
+#define kURL_GetInfo [NSString stringWithFormat:@"%@memberAppController.do?getInfo",kURL]
+//5.2.我的订单
+#define kURL_Getmyorder [NSString stringWithFormat:@"%@memberAppController.do?getmyorder",kURL]
+//5.3 订单详情
+#define kURL_GetmyorderDetail [NSString stringWithFormat:@"%@memberAppController.do?getmyorderDetail",kURL]
+//5.4 我的发布
+#define kURL_GetpublishList [NSString stringWithFormat:@"%@memberAppController.do?getpublishList",kURL]
+//5.5 发布详情
+#define kURL_GetmypublishDetail [NSString stringWithFormat:@"%@memberAppController.do?getmypublishDetail",kURL]
+//5.6开票
+#define kURL_Addreceipt [NSString stringWithFormat:@"%@memberAppController.do?addreceipt",kURL]
+//5.7发票信息列表
+#define kURL_Getreceiptlist [NSString stringWithFormat:@"%@memberAppController.do?getreceiptlist",kURL]
+//5.8我的钱包
+#define kURL_Getmymoney [NSString stringWithFormat:@"%@memberAppController.do?getmymoney",kURL]
+//5.9我的钱包-交易记录
+#define kURL_Getpayhostory [NSString stringWithFormat:@"%@memberAppController.do?getpayhostory",kURL]
+//5.10绑定银行卡
+#define kURL_BindBandCard [NSString stringWithFormat:@"%@memberAppController.do?bindBandCard",kURL]
+//5.11 提现
+#define kURL_GetBankMoney [NSString stringWithFormat:@"%@memberAppController.do?getBankMoney",kURL]
+//5.10提现完成
+#define kURL_GetBankMoneyFinish [NSString stringWithFormat:@"%@memberAppController.do?getBankMoneyFinish",kURL]
+//5.12 提现记录
+#define kURL_GetMoneyHistory [NSString stringWithFormat:@"%@memberAppController.do?getMoneyHistory",kURL]
+//5.13 评价记录
+#define kURL_GetRankHistory [NSString stringWithFormat:@"%@memberAppController.do?getRankHistory",kURL]
+//5.14我的优惠券
+#define kURL_Getcouponlist [NSString stringWithFormat:@"%@memberAppController.do?getcouponlist",kURL]
+//5.15修改个人信息
+//#define kURL_UpdateInfo [NSString stringWithFormat:@"%@memberAppController.do?updateInfo",kURL]
+//5.16 修改头像
+#define kURL_UpdateImage [NSString stringWithFormat:@"%@memberAppController.do?updateImage",kURL]
+//5.17上传身份证
+#define kURL_Updateidcard [NSString stringWithFormat:@"%@memberAppController.do?updateidcard",kURL]
+//5.18 上传证书
+#define kURL_Updatecertificate [NSString stringWithFormat:@"%@memberAppController.do?updatecertificate",kURL]
+//5.19修改支付密码
+#define kURL_Updatepaypw [NSString stringWithFormat:@"%@memberAppController.do?updatepaypw",kURL]
+//5.20 我的认证
+#define kURL_GetcertificateList [NSString stringWithFormat:@"%@memberAppController.do?getcertificateList",kURL]
+//5.21 认证详情
+#define kURL_GetcertificateDetail [NSString stringWithFormat:@"%@memberAppController.do?getcertificateDetail",kURL]
+
+#pragma mark - 系统消息
+//6.1 系统消息
+#define kURL_GetSystemNotice [NSString stringWithFormat:@"%@noticeController.do?getSystemNotice",kURL]
+//6.2系统消息详情
+#define kURL_GetDetailNotice [NSString stringWithFormat:@"%@noticeController.do?getDetailNotice",kURL]
+
+#pragma mark - 7.反馈
+//7.1 添加用户反馈信息
+#define kURL_Addfeedback [NSString stringWithFormat:@"%@feedbackAppController.do?addfeedback",kURL]
+//7.2 查看反馈列表
+#define kURL_Getfeedbacklist [NSString stringWithFormat:@"%@feedbackAppController.do?getfeedbacklist",kURL]
+//7.3 查看系统反馈详情
+#define kURL_Getfeedbackdetail [NSString stringWithFormat:@"%@feedbackAppController.do?getfeedbackdetail",kURL]
+
+#pragma mark - 8.评价
+//8.1添加评价
+#define kURL_Addevaluate [NSString stringWithFormat:@"%@evaluateController.do?addevaluate",kURL]
+//8.2查看评价列表
+#define kURL_Getevaluatelist [NSString stringWithFormat:@"%@evaluateController.do?getevaluatelist",kURL]
+//9.1 应用简介
+#define kURL_GetAppIntroduce [NSString stringWithFormat:@"%@systemController.do?getAppIntroduce",kURL]
+
+#endif /* APIHeader_pch */

@@ -1,0 +1,262 @@
+//
+//  
+//
+//
+//  Created by mac on 16/5/27.
+//  Copyright © 2016年 LingFeng. All rights reserved.
+//
+
+#ifndef PCHeader_pch
+#define PCHeader_pch
+
+#ifdef __OBJC__
+//颜色值
+#import "ColorHeader.pch"
+//接口API
+#import "APIHeader.pch"
+
+
+#pragma mark - 第三方库
+#import <AFNetworking/AFNetworking.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/UIButton+WebCache.h>
+#import <SDAutoLayout/UIView+SDAutoLayout.h>
+#import <SDAutoLayout/UITableView+SDAutoTableViewCellHeight.h>
+#import <JSONModel/JSONModel.h>
+
+
+
+
+
+#pragma mark - 自定义库
+
+
+#import "RequestPost.h"
+#import "SLFCommonTools.h"
+
+#import "MyBaseTableViewController.h"
+#import "MyBaseViewController.h"
+#import "MyTableView.h"
+#import "MyTimeButton.h"
+#import "MyLabel.h"
+#import "MyButton.h"
+#import "SLFBaseModel.h"
+#import "SLFAlert.h"
+#import "MyTextView.h"
+#import "BaseTextField.h"
+#import "SLFHUD.h"
+
+
+#pragma mark - 模型类
+
+
+
+
+#pragma mark - 九宫格
+#define JGG_X(xl,width,w,i,count) xl+(width+w)*(i%(count))
+#define JGG_Y(yl,height,h,i,count) yl+(height+h)*(i/(count))
+
+#pragma mark - 宽高
+#define kScreenW \
+([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)] ? [UIScreen mainScreen].nativeBounds.size.width/[UIScreen mainScreen].nativeScale : [UIScreen mainScreen].bounds.size.width)
+
+#define kScreenH \
+([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)] ? [UIScreen mainScreen].nativeBounds.size.height/[UIScreen mainScreen].nativeScale : [UIScreen mainScreen].bounds.size.height)
+
+#define kScreen ([UIScreen mainScreen].bounds)
+
+#define kSelfH (self.frame.size.height)
+#define kSelfW (self.frame.size.width)
+
+#define kSelfViewW (self.view.frame.size.width)
+#define kSelfViewH (self.view.frame.size.height)
+
+#define kSelfContentViewH (self.contentView.frame.size.height)
+#define kSelfContentViewW (self.contentView.frame.size.width)
+
+
+#define kMainCornerRadius 10.f
+///减去导航条和tabbar
+#define kMianNavTabbarH kScreenH-64-49
+///减去导航条
+#define kMianNavH kScreenH-64
+///加上tabbar
+#define kMianPlusTabbarH kScreenH+49
+
+#define kMianSpace 25
+
+#define kWeakSelf(weakSelf) __weak __typeof(&*self) weakSelf = self
+#define kWeakObj(weakObj, _obj) __weak __typeof(&*_obj) weakObj = _obj
+
+//strong
+#define kStrongSelf(strongSelf) __strong __typeof(&*self) strongSelf = self
+#define kStrongObj(strongOBJ, _obj) __strong __typeof(&*_obj) strongOBJ = _obj
+
+//字符串是否为空
+#define kStringIsEmpty(str) ([str isKindOfClass:[NSNull class]] || str == nil || [str length] < 1 ? YES : NO )
+//数组是否为空
+#define kArrayIsEmpty(array) (array == nil || [array isKindOfClass:[NSNull class]] || array.count == 0)
+//字典是否为空
+#define kDictIsEmpty(dic) (dic == nil || [dic isKindOfClass:[NSNull class]] || dic.allKeys == 0)
+//是否是空对象
+#define kObjectIsEmpty(_object) (_object == nil \
+|| [_object isKindOfClass:[NSNull class]] \
+|| ([_object respondsToSelector:@selector(length)] && [(NSData *)_object length] == 0) \
+|| ([_object respondsToSelector:@selector(count)] && [(NSArray *)_object count] == 0))
+
+//APP版本号
+#define kAppVersion [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
+
+//系统版本号
+#define kSystemVersion [[UIDevice currentDevice] systemVersion]
+
+//获取当前语言
+#define kCurrentLanguage ([[NSLocale preferredLanguages] objectAtIndex:0])
+
+//由角度转换弧度
+#define kDegreesToRadian(x)      (M_PI * (x) / 180.0)
+
+//由弧度转换角度
+#define kRadianToDegrees(radian) (radian * 180.0) / (M_PI)
+
+//获取一段时间间隔
+#define kStartTime CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+#define kEndTime   NSLog(@"Time: %f", CFAbsoluteTimeGetCurrent() - start)
+
+
+
+
+
+
+
+//(rand() % (b - a)) + a 
+//#define kCOLOR_WITH_RBG(_red,_green,_blue) [UIColor colorWithRed:_red/255.0 green:_green/255.0 blue:_blue/255.0 alpha:1.0]
+//#define kCOLOR_WITH_RGBA(_red, _green, _blue, _alpha) [UIColor colorWithRed:_red/255.0 green:_green/255.0 blue:_blue/255.0 alpha:_alpha]
+#define kColorRandomly [UIColor colorWithRed:(arc4random()%255)/255.0 green:(arc4random()%255)/255.0 blue:(arc4random()%255)/255.0 alpha:1.0]
+//#define kCOLOR_HEX(x_RGB) [UIColor colorWithRed:((float)((x_RGB & 0xFF0000) >> 16))/255.0 green:((float)((x_RGB & 0xFF00) >> 8))/255.0 blue:((float)(x_RGB & 0xFF))/255.0 alpha:1.0f]
+
+//提供RGB模式的UIColor定义.
+#define     RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+
+#define     RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
+
+#define     HEXCOLOR(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define     HEXCOLORA(rgbValue, a) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
+
+#define kRanNumber(_min, _max) arc4random()%(_max-_min+1)+_min
+
+#define IS_IOS9 [[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0
+
+#define IS_IOS11 [[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0
+
+//判断高清
+#define     ISRETINA ([UIScreen instancesRespondToSelector:@selector(scale)] ? (2 == [[UIScreen mainScreen] scale]): NO)
+
+//判断IOS8
+#define IOS8_OR_LATER   ( [[[UIDevice currentDevice] systemVersion] compare:@"8.0"] != NSOrderedAscending )
+
+// 判断iOS7
+#define IOS7_OR_LATER   ( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending )
+
+// 判断iPhone5
+#define ISiPhone5       CGSizeEqualToSize([[UIScreen mainScreen] preferredMode].size, CGSizeMake(640, 1136))
+
+// 判断iPhone4s
+#define ISiPhone4S      CGSizeEqualToSize([[UIScreen mainScreen] preferredMode].size, CGSizeMake(640, 960))
+
+// 判断iPhone6
+#define ISiPhone6      CGSizeEqualToSize([[UIScreen mainScreen] preferredMode].size, CGSizeMake(750, 1334))
+
+// 判断iPhone6P
+#define ISiPhone6Plus  CGSizeEqualToSize([[UIScreen mainScreen] preferredMode].size, CGSizeMake(1242, 2208))
+
+// 判断iPad
+#define     ISIPAD          (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
+///宽度适配 都根据ip6的像素
+#define kIP6_FitScreenWidth (width-10)*(kScreenW/320)
+///按高度适配 根据ip6的像素
+#define kIP6_FitScreenHeight (height-10)*(kScreenH/568)
+
+///宽度适配 都根据ip5的像素
+#define kIP5_FitScreenWidth width*(kScreenW/320)
+///按高度适配 根据ip5的像素
+#define kIP5_FitScreenHeight height*(kScreenH/568)
+
+///宽度适配
+#define kAW(_width) ([SLFCommonTools adaptiveWidth:_width])
+///按高度适配
+#define kAH(_height) ([SLFCommonTools adaptiveHeight:_height])
+
+// 过期提醒
+#define MJRefreshDeprecated(instead) NS_DEPRECATED(2_0, 2_0, 2_0, 2_0, instead)
+
+//动画时间
+#define kAnTime 0.33f
+
+#define kIsOne @"one"
+
+#define kStrFormat(_content, _format) [NSString stringWithFormat:@"%@%@", _content, _format]
+#define kIntToString(_intt) [NSString stringWithFormat:@"%ld", _intt]
+//判断内容为空返回 暂无
+#define kContext(_text) [@"" isEqualToString:_text]?@"无":_text
+
+//因为方法名 shared"ClassName"是连在一起的，为了让宏能够正确替换掉签名中的“ClassName”需要在前面加上 ##
+//当宏的定义超过一行时，在末尾加上“\”表示下一行也在宏定义范围内。注意最后一行不需要加"\”。
+
+//使用方法：(单利配合模型使用很方便)
+//在.h里面(//公开的访问单利对象的方法singleton_interface(MyModel))
+//在.m里面(singleton_implementation(MyModel))
+#define singleton_Interface(class)  +(class *)shareclass;
+
+#define singleton_implemetntion(class)\
+static class * instance = nil;\
++(class *)shareclass\
+{\
+if (!instance) {\
+instance = [[class alloc]init];\
+}\
+return instance;\
+}\
++(class *)allocWithZone:(struct _NSZone *)zone\
+{\
+static dispatch_once_t onece;\
+dispatch_once(&onece, ^{\
+instance = [super allocWithZone:zone];\
+});\
+return instance;\
+}
+
+
+#define kContentViewAdd(_view, _class) _view = [[_class alloc] init];\
+[self.contentView addSubview:_view];
+
+#define kSelfViewAdd(_view, _class) _view = [[_class alloc] init];\
+[self.view addSubview:_view];
+
+#define kViewAddView(_view, _class, _toView) _view = [[_class alloc] init];\
+[_toView addSubview:_view];
+
+#define kSelfAddView(_view, _class) _view = [[_class alloc] init];\
+[self addSubview:_view];
+
+#define kSelfContentViewAdd(_view) [self.contentView addSubview:_view]
+
+#define kSelfContentView self.contentView
+
+#define kVersion [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+
+
+#endif
+
+#ifndef __OPTIMIZE__
+#define NSLog(...) NSLog(__VA_ARGS__)
+#else
+#define NSLog(...) {}
+#endif
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PCHeader_pch */
