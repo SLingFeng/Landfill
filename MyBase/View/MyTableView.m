@@ -31,7 +31,7 @@
     self.emptyDataSetSource = self;
     self.tableFooterView = [[UIView alloc] init];
     //状态颜色字体
-    _attributes = @{NSFontAttributeName : [CommonTools pxFont:34], NSForegroundColorAttributeName : [CommonTools colorHex:@"333333"]};
+    _attributes = @{NSFontAttributeName : [SLFCommonTools pxFont:34], NSForegroundColorAttributeName : [SLFCommonTools colorHex:@"333333"]};
 
     
 //    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerR)];
@@ -205,7 +205,7 @@
         return nil;
     }
     NSMutableDictionary *attributes = [NSMutableDictionary new];
-    if (font) [attributes setObject:[CommonTools pxFont:32] forKey:NSFontAttributeName];
+    if (font) [attributes setObject:[SLFCommonTools pxFont:32] forKey:NSFontAttributeName];
     if (textColor) [attributes setObject:textColor forKey:NSForegroundColorAttributeName];
     
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];

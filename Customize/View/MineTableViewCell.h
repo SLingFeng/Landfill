@@ -6,7 +6,6 @@
 //  Copyright © 2017年 LingFeng. All rights reserved.
 //
 
-#import "MyBaseTableViewCell.h"
 
 @interface MineTableViewCell : UITableViewCell
 @property (nonatomic, retain) MyLabel * title;

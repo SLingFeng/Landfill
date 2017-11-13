@@ -49,7 +49,7 @@ static SLFAlert * instance = nil;
 
 +(void)showSystemAlertWithVC:(UIViewController *)weakSelf title:(NSString *)title text:(NSString *)text determineTitle:(NSString *)determine cancelTitle:(NSString *)cancelTitle cancel:(BOOL)cancel alertClick:(alertClick)alertClick {
     {
-        UIViewController *vc = weakSelf==nil?[CommonTools currentViewController]:weakSelf;
+        UIViewController *vc = weakSelf==nil?[SLFCommonTools currentViewController]:weakSelf;
         
         UIAlertController * alertController = [UIAlertController alertControllerWithTitle:title message:text preferredStyle:(UIAlertControllerStyleAlert)];
         
@@ -81,7 +81,7 @@ static SLFAlert * instance = nil;
 
 +(void)showSystemActionSheetWithVC:(UIViewController *)weakSelf title:(NSString *)title text:(NSString *)text determineTitle:(NSString *)determine cancelTitle:(NSString *)cancelTitle cancel:(BOOL)cancel alertClick:(alertClick)alertClick {
     
-    UIViewController *vc = weakSelf==nil?[CommonTools currentViewController]:weakSelf;
+    UIViewController *vc = weakSelf==nil?[SLFCommonTools currentViewController]:weakSelf;
     
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:title message:text preferredStyle:(UIAlertControllerStyleActionSheet)];
     if (cancel) {
@@ -120,18 +120,18 @@ static SLFAlert * instance = nil;
         }
     }]];
 
-    [[CommonTools currentViewController] presentViewController:alertController animated:YES completion:nil];
+    [[SLFCommonTools currentViewController] presentViewController:alertController animated:YES completion:nil];
 }
 
 +(void)setupTextFont:(NSString *)title text:(NSString *)text ac:(UIAlertController *)alertController {
-    //    NSDictionary * style = @{@"font" : [CommonTools pxFont:28],
-    //                             @"font2" : [CommonTools pxFont:20],
+    //    NSDictionary * style = @{@"font" : [SLFCommonTools pxFont:28],
+    //                             @"font2" : [SLFCommonTools pxFont:20],
     //                             @"color" : k666666,
     //                             @"color2" : k999999};
     //title
     //    if (nil != title) {
     //        NSMutableAttributedString *alertTitleStr = [[NSMutableAttributedString alloc] initWithString:title];
-    //        [alertTitleStr addAttribute:NSFontAttributeName value:[CommonTools pxFont:32] range:NSMakeRange(0, title.length)];
+    //        [alertTitleStr addAttribute:NSFontAttributeName value:[SLFCommonTools pxFont:32] range:NSMakeRange(0, title.length)];
     //        [alertTitleStr addAttribute:NSForegroundColorAttributeName value:k111111 range:NSMakeRange(0, title.length)];
     //        [alertController setValue:alertTitleStr forKey:@"attributedTitle"];
     //    }
@@ -139,7 +139,7 @@ static SLFAlert * instance = nil;
     //    //message
     //    if (nil != text) {
     //        NSMutableAttributedString *alertMessageStr = [[NSMutableAttributedString alloc] initWithString:text];
-    //        [alertMessageStr addAttribute:NSFontAttributeName value:[CommonTools pxFont:32] range:NSMakeRange(0, text.length)];
+    //        [alertMessageStr addAttribute:NSFontAttributeName value:[SLFCommonTools pxFont:32] range:NSMakeRange(0, text.length)];
     //        [alertMessageStr addAttribute:NSForegroundColorAttributeName value:k666666 range:NSMakeRange(0, title.length)];
     //        [alertController setValue:alertMessageStr forKey:@"attributedMessage"];
     //    }
@@ -147,7 +147,7 @@ static SLFAlert * instance = nil;
 
 + (void)alertTextFView:(UIViewController *)ws title:(NSString *)title text:(NSString *)text determineTitle:(NSString *)determine cancelTitle:(NSString *)cancelTitle placeholder:(NSString *)placeholder alertClick:(alertClickText)alertClick {
     if (ws == nil) {
-        ws = [CommonTools currentViewController];
+        ws = [SLFCommonTools currentViewController];
     }
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:title message:text preferredStyle:(UIAlertControllerStyleAlert)];
     
@@ -204,7 +204,7 @@ static SLFAlert * instance = nil;
         [[UIApplication sharedApplication].keyWindow addSubview:_backgroundView];
 
         UIView * b = [[UIView alloc] initWithFrame:kScreen];
-        b.backgroundColor = [CommonTools colorHex:@"000000" alpha:0.6];
+        b.backgroundColor = [SLFCommonTools colorHex:@"000000" alpha:0.6];
         [_backgroundView addSubview:b];
 
         _alertView = [[UIView alloc] init];
@@ -213,14 +213,14 @@ static SLFAlert * instance = nil;
         _alertView.layer.masksToBounds = 1;
         _alertView.layer.cornerRadius = 15;
 
-        UIView *line = [CommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
+        UIView *line = [SLFCommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
         [_alertView addSubview:line];
 
-        kWEAKOBJ(weakAlert, _alertView);
-        kWEAKSELF(weakSelf);
+        kWeakObj(weakAlert, _alertView);
+        kWeakSelf(weakSelf);
 
         MyLabel * titleLabel = [[MyLabel alloc] initWithFontSize:(32/2) fontColor:k111111 setText:title];
-        titleLabel.font = [CommonTools pxFont:32];
+        titleLabel.font = [SLFCommonTools pxFont:32];
         [_alertView addSubview:titleLabel];
         titleLabel.textAlignment = NSTextAlignmentCenter;
 
@@ -229,7 +229,7 @@ static SLFAlert * instance = nil;
         [_alertView addSubview:rightBtn];
         [rightBtn setTitle:rightTitle forState:(UIControlStateNormal)];
         [rightBtn setTitleColor:change?k666666:kFF0000 forState:(UIControlStateNormal)];
-        rightBtn.titleLabel.font = [CommonTools pxFont:32];
+        rightBtn.titleLabel.font = [SLFCommonTools pxFont:32];
 
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.offset(24);
@@ -245,14 +245,14 @@ static SLFAlert * instance = nil;
 
         if (leftTitle != nil) {
             
-            UIView *lineDash = [CommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
+            UIView *lineDash = [SLFCommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
             [_alertView addSubview:lineDash];
             
             MyButton * leftBtn = [MyButton buttonWithType:(UIButtonTypeSystem)];
             [_alertView addSubview:leftBtn];
             [leftBtn setTitle:leftTitle forState:(UIControlStateNormal)];
             [leftBtn setTitleColor:change?kFF0000:k666666 forState:(UIControlStateNormal)];
-            leftBtn.titleLabel.font = [CommonTools pxFont:32];
+            leftBtn.titleLabel.font = [SLFCommonTools pxFont:32];
 
             [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(132, 46));
@@ -320,7 +320,7 @@ static SLFAlert * instance = nil;
         [[UIApplication sharedApplication].keyWindow addSubview:_backgroundView];
         
         UIView * b = [[UIView alloc] initWithFrame:kScreen];
-        b.backgroundColor = [CommonTools colorHex:@"000000" alpha:0.6];
+        b.backgroundColor = [SLFCommonTools colorHex:@"000000" alpha:0.6];
         [_backgroundView addSubview:b];
         
         _alertView = [[UIView alloc] init];
@@ -329,14 +329,14 @@ static SLFAlert * instance = nil;
         _alertView.layer.masksToBounds = 1;
         _alertView.layer.cornerRadius = 15;
         
-        UIView *line = [CommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
+        UIView *line = [SLFCommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
         [_alertView addSubview:line];
         
-        kWEAKOBJ(weakAlert, _alertView);
-        kWEAKSELF(weakSelf);
+        kWeakObj(weakAlert, _alertView);
+        kWeakSelf(weakSelf);
         
         MyLabel * titleLabel = [[MyLabel alloc] initWithFontSize:32 fontColor:k111111 setText:title];
-        titleLabel.font = [CommonTools pxFont:32];
+        titleLabel.font = [SLFCommonTools pxFont:32];
         [_alertView addSubview:titleLabel];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         
@@ -348,7 +348,7 @@ static SLFAlert * instance = nil;
         [_alertView addSubview:rightBtn];
         [rightBtn setTitle:rightTitle forState:(UIControlStateNormal)];
         [rightBtn setTitleColor:change?k666666:kFF0000 forState:(UIControlStateNormal)];
-        rightBtn.titleLabel.font = [CommonTools pxFont:32];
+        rightBtn.titleLabel.font = [SLFCommonTools pxFont:32];
         
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.offset(24);
@@ -370,14 +370,14 @@ static SLFAlert * instance = nil;
         
         if (leftTitle != nil) {
             
-            UIView *lineDash = [CommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
+            UIView *lineDash = [SLFCommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
             [_alertView addSubview:lineDash];
             
             MyButton * leftBtn = [MyButton buttonWithType:(UIButtonTypeSystem)];
             [_alertView addSubview:leftBtn];
             [leftBtn setTitle:leftTitle forState:(UIControlStateNormal)];
             [leftBtn setTitleColor:change?kFF0000:k666666 forState:(UIControlStateNormal)];
-            leftBtn.titleLabel.font = [CommonTools pxFont:32];
+            leftBtn.titleLabel.font = [SLFCommonTools pxFont:32];
             
             [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(132, 46));
@@ -442,7 +442,7 @@ static SLFAlert * instance = nil;
         [[UIApplication sharedApplication].keyWindow addSubview:_backgroundView];
         
         UIView * b = [[UIView alloc] initWithFrame:kScreen];
-        b.backgroundColor = [CommonTools colorHex:@"000000" alpha:0.6];
+        b.backgroundColor = [SLFCommonTools colorHex:@"000000" alpha:0.6];
         [_backgroundView addSubview:b];
         
         _alertView = [[UIView alloc] init];
@@ -451,14 +451,14 @@ static SLFAlert * instance = nil;
         _alertView.layer.masksToBounds = 1;
         _alertView.layer.cornerRadius = 15;
         
-        UIView *line = [CommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
+        UIView *line = [SLFCommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
         [_alertView addSubview:line];
         
-        kWEAKOBJ(weakAlert, _alertView);
-        kWEAKSELF(weakSelf);
+        kWeakObj(weakAlert, _alertView);
+        kWeakSelf(weakSelf);
         
         MyLabel * titleLabel = [[MyLabel alloc] initWithFontSize:32 fontColor:k111111 setText:title];
-        titleLabel.font = [CommonTools pxFont:32];
+        titleLabel.font = [SLFCommonTools pxFont:32];
         [_alertView addSubview:titleLabel];
         
         MyLabel *subTitleLabel = [[MyLabel alloc] initWithFontSize:28 fontColor:k666666 setText:subTitle];
@@ -471,7 +471,7 @@ static SLFAlert * instance = nil;
         [_alertView addSubview:rightBtn];
         [rightBtn setTitle:rightTitle forState:(UIControlStateNormal)];
         [rightBtn setTitleColor:change?k666666:kFF0000 forState:(UIControlStateNormal)];
-        rightBtn.titleLabel.font = [CommonTools pxFont:32];
+        rightBtn.titleLabel.font = [SLFCommonTools pxFont:32];
         
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.offset(kMainSpace);
@@ -499,14 +499,14 @@ static SLFAlert * instance = nil;
         
         if (leftTitle != nil) {
             
-            UIView *lineDash = [CommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
+            UIView *lineDash = [SLFCommonTools lineViewToHight:0.5 spaceForRightAndLetf:0];
             [_alertView addSubview:lineDash];
             
             MyButton * leftBtn = [MyButton buttonWithType:(UIButtonTypeSystem)];
             [_alertView addSubview:leftBtn];
             [leftBtn setTitle:leftTitle forState:(UIControlStateNormal)];
             [leftBtn setTitleColor:change?kFF0000:k666666 forState:(UIControlStateNormal)];
-            leftBtn.titleLabel.font = [CommonTools pxFont:32];
+            leftBtn.titleLabel.font = [SLFCommonTools pxFont:32];
             
             [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(132, 46));
@@ -562,14 +562,14 @@ static SLFAlert * instance = nil;
 
 
 -(void)show {
-    kWEAKOBJ(weakOBJ, _backgroundView);
+    kWeakObj(weakOBJ, _backgroundView);
     [UIView animateWithDuration:0.35 animations:^{
         weakOBJ.alpha = 1;
     }];
 }
 
 -(void)cancelTap {
-    kWEAKOBJ(weakOBJ, _backgroundView);
+    kWeakObj(weakOBJ, _backgroundView);
 //    [UIView animateWithDuration:0.35 animations:^{
 //        weakOBJ.alpha = 0;
 //    } completion:^(BOOL finished) {

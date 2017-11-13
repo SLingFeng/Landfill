@@ -41,8 +41,6 @@
     }
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.left.offset(0);
-        make.bottom.equalTo(btn.mas_top).offset(0);
         make.edges.insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
     

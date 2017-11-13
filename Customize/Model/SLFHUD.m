@@ -18,6 +18,7 @@
 
 #import "SLFHUD.h"
 
+
 #import <objc/runtime.h>
 
 static const void *SLFHttpRequestHUDKey = &SLFHttpRequestHUDKey;
@@ -61,9 +62,9 @@ static SLFHUD * _HUD = nil;
 + (void)showHudInView:(UIView *)view hint:(NSString *)hint {
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:view];
     HUD.labelText = hint;
-    [view addSubview:hud];
-    [hud show:YES];
-    [[SLFHUD share] setHUD:hud];
+    [view addSubview:HUD];
+    [HUD show:YES];
+    [[SLFHUD share] setHUD:HUD];
 }
 
 + (void)showLoadingHint:(NSString *)hint {

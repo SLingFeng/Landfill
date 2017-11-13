@@ -27,6 +27,9 @@
 #define kFF7E00 [SLFCommonTools colorHex:@"ff7e00"]
 
 #define kF2F2F2 [SLFCommonTools colorHex:@"F2F2F2"]
+
+#define kLineColor [SLFCommonTools colorHex:@"F2F2F2"]
+
 //
 //#define k66 [SLFCommonTools colorHex:@"333333"]
 //

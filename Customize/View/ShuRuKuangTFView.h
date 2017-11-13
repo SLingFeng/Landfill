@@ -5,6 +5,8 @@
 //
 
 #import <UIKit/UIKit.h>
+
+@class MyLabel;
 @class BaseTextField;
 //#import <IQKeyboardManager/IQPreviousNextView.h>
 @interface ShuRuKuangTFView : UIView

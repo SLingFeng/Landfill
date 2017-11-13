@@ -6,6 +6,7 @@
 //
 
 #import "MyBaseCollectionViewController.h"
+#import "MyCollectionView.h"
 
 @interface MyBaseCollectionViewController ()
 

@@ -190,7 +190,7 @@
             [btn addTarget:self action:@selector(selectClassClick:) forControlEvents:(UIControlEventTouchUpInside)];
             if (i == 0) {
                 btn.selected = 1;
-                [SLFCommonTools lineDash:self hight:65 x:kScreenW/2-12 y:9.5 color:kLineColor lineW:0.5];
+//                [SLFCommonTools lineDash:self hight:65 x:kScreenW/2-12 y:9.5 color:kLineColor lineW:0.5];
             }
             btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 15);
             
@@ -233,15 +233,15 @@
             }
             [btn addTarget:self action:@selector(selectClassClick:) forControlEvents:(UIControlEventTouchUpInside)];
             btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 15);
-            float w = kContentViewWidth/titles.count;
+            float w = kScreenW/titles.count;
             float x = JGG_X(0, w, 0, i, 3);
             float y = JGG_Y(0, 50, 0, i, 3);
             btn.frame = CGRectMake(x, y, w, 50);
             if (i == 0) {
                 btn.selected = 1;
-                [SLFCommonTools lineDash:self hight:40 x:w y:5 color:kLineColor lineW:0.5];
+//                [SLFCommonTools lineDash:self hight:40 x:w y:5 color:kLineColor lineW:0.5];
             }else if (i==1) {
-                [SLFCommonTools lineDash:self hight:40 x:w*2 y:5 color:kLineColor lineW:0.5];
+//                [SLFCommonTools lineDash:self hight:40 x:w*2 y:5 color:kLineColor lineW:0.5];
             }
 //            [btn mas_makeConstraints:^(MASConstraintMaker *make) {
 //                make.width.equalTo(@(CGRectGetWidth(weakSelf.frame)/2));
@@ -258,7 +258,7 @@
                 select.sd_layout.bottomSpaceToView(self, 0).widthIs(ISiPhone5?70:100).heightIs(3).centerXEqualToView(btn);
             }
         }
-        [SLFCommonTools line:self y:50 leftSpace:0 rightSpace:kContentViewWidth color:kLineColor lineW:0.5];
+//        [SLFCommonTools line:self y:50 leftSpace:0 rightSpace:kContentViewWidth color:kLineColor lineW:0.5];
     }
     return self;
 }

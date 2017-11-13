@@ -89,7 +89,7 @@ typedef enum : NSUInteger {
 -(void)setPicker {
     self.frame = kScreen;
     [[UIApplication sharedApplication].keyWindow addSubview:self];
-    self.backgroundColor = kCOLOR_WITH_RGBA(0, 0, 0, 0.5);
+    self.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
     [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelTap)]];
 
     UIView * back = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenH+_selectHeight, kScreenW, _selectHeight)];
@@ -106,8 +106,8 @@ typedef enum : NSUInteger {
     UIButton * cancelBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [cancelBtn setTitle:@"取消" forState:(UIControlStateNormal)];
     [cancelBtn addTarget:self action:@selector(cancelTap) forControlEvents:(UIControlEventTouchUpInside)];
-    [cancelBtn setTitleColor:[CommonTools getNavBarColor] forState:(UIControlStateNormal)];
-    cancelBtn.titleLabel.font = [CommonTools pxFont:28];
+    [cancelBtn setTitleColor:[SLFCommonTools getNavBarColor] forState:(UIControlStateNormal)];
+    cancelBtn.titleLabel.font = [SLFCommonTools pxFont:28];
     [_backgroundView addSubview:cancelBtn];
     
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -119,8 +119,8 @@ typedef enum : NSUInteger {
     UIButton * doneBtn = [UIButton buttonWithType:(UIButtonTypeSystem)];
     [doneBtn setTitle:@"确定" forState:(UIControlStateNormal)];
     [doneBtn addTarget:self action:@selector(nextBtnClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    [doneBtn setTitleColor:[CommonTools getNavBarColor] forState:(UIControlStateNormal)];
-    doneBtn.titleLabel.font = [CommonTools pxFont:28];
+    [doneBtn setTitleColor:[SLFCommonTools getNavBarColor] forState:(UIControlStateNormal)];
+    doneBtn.titleLabel.font = [SLFCommonTools pxFont:28];
     [_backgroundView addSubview:doneBtn];
     [doneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_backgroundView).with.offset(0);
@@ -262,8 +262,8 @@ typedef enum : NSUInteger {
 }
 
 -(void)show {
-    kWEAKSELF(weakSelf);
-    kWEAKOBJ(weakOBJ, _backgroundView);
+    kWeakSelf(weakSelf);
+    kWeakObj(weakOBJ, _backgroundView);
     [UIView animateWithDuration:0.35 animations:^{
         weakSelf.alpha = 1;
         weakOBJ.alpha = 1;
@@ -272,8 +272,8 @@ typedef enum : NSUInteger {
 }
 
 -(void)cancelTap {
-    kWEAKSELF(weakSelf);
-    kWEAKOBJ(weakOBJ, _backgroundView);
+    kWeakSelf(weakSelf);
+    kWeakObj(weakOBJ, _backgroundView);
     [UIView animateWithDuration:0.35 animations:^{
         weakSelf.alpha = 0;
         weakOBJ.alpha = 0;

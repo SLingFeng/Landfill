@@ -23,17 +23,18 @@
 #import <SDAutoLayout/UIView+SDAutoLayout.h>
 #import <SDAutoLayout/UITableView+SDAutoTableViewCellHeight.h>
 #import <JSONModel/JSONModel.h>
-
-
-
+#import <MJRefresh.h>
+#import <Masonry.h>
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
+#import <WPAttributedMarkup/NSString+WPAttributedMarkup.h>
+#import <MBProgressHUD.h>
+#import <CYLTabBarController.h>
 
 
 #pragma mark - 自定义库
-
-
 #import "RequestPost.h"
 #import "SLFCommonTools.h"
-
+#import "ShuRuKuangTFView.h"
 #import "MyBaseTableViewController.h"
 #import "MyBaseViewController.h"
 #import "MyTableView.h"
@@ -45,6 +46,8 @@
 #import "MyTextView.h"
 #import "BaseTextField.h"
 #import "SLFHUD.h"
+#import "MyLabel.h"
+#import "GVUserDefaults+SLFUserInfo.h"
 
 
 #pragma mark - 模型类
@@ -74,6 +77,8 @@
 #define kSelfContentViewH (self.contentView.frame.size.height)
 #define kSelfContentViewW (self.contentView.frame.size.width)
 
+
+#define kMainSpace 15
 
 #define kMainCornerRadius 10.f
 ///减去导航条和tabbar
@@ -123,7 +128,12 @@
 #define kStartTime CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
 #define kEndTime   NSLog(@"Time: %f", CFAbsoluteTimeGetCurrent() - start)
 
-
+#define kViewBorderRadius(View, Radius, Width, Color)\
+\
+[View.layer setCornerRadius:(Radius)];\
+[View.layer setMasksToBounds:YES];\
+[View.layer setBorderWidth:(Width)];\
+[View.layer setBorderColor:[Color CGColor]]
 
 
 

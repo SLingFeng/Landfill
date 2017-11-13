@@ -98,7 +98,7 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     switch (self.enterType) {
         case BaseTextFieldEnterAll:{
-            return [CommonTools stringContainsEmoji:string];
+            return [SLFCommonTools stringContainsEmoji:string];
         }
             break;
         case BaseTextFieldEnterNumber:{
@@ -114,19 +114,19 @@
 //                }
 //                i++;
 //            }
-            return [CommonTools matchStringNumber:string];
+            return [SLFCommonTools matchStringNumber:string];
         }
             break;
         case BaseTextFieldEnterCNEN:{
-            return [CommonTools matchStringFormat:string];
+            return [SLFCommonTools matchStringFormat:string];
         }
             break;
         case BaseTextFieldEnterNumberAndCN:{
-            return [CommonTools matchStringNumberAndCN:string];
+            return [SLFCommonTools matchStringNumberAndCN:string];
         }
             break;
         case BaseTextFieldEnterNumberAndEN:{
-            return [CommonTools matchStringNumberAndEN:string];
+            return [SLFCommonTools matchStringNumberAndEN:string];
         }
             break;
         case BaseTextFieldEnterNumberD5:{

@@ -2,7 +2,7 @@
 //  Copyright © 2016年 孙凌锋. All rights reserved.
 //
 #import "NewFeatureController.h"
-#import "YGBFirstViewController.h"
+
 #define KCount 3
 @interface NewFeatureController ()<UIScrollViewDelegate>
 @property(nonatomic,weak) UIScrollView *scrollView;
@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    MyLocation *location = [[MyLocation alloc] init];
+//    MyLocation *location = [[MyLocation alloc] init];
     
     UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, -20, kScreenW, kScreenH+20)];
     self.automaticallyAdjustsScrollViewInsets = YES;
@@ -80,19 +80,19 @@
 //开始按钮
 -(void)startClick {
     [SLFHUD showLoading];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[YGBAppConfigModel getPaht]]) {
-            [RequestPost apiForGetAppConfigSuccess:^(BOOL go) {
-                [SLFHUD hideHud];
-                UINavigationController *navigationController = nil;
-                navigationController = [[UINavigationController alloc] initWithRootViewController:[[YGBFirstViewController alloc] init]];
-                [UIApplication sharedApplication].keyWindow.rootViewController = navigationController;
-            }];
-    }else {
-        [SLFHUD hideHud];
-        UINavigationController *navigationController = nil;
-        navigationController = [[UINavigationController alloc] initWithRootViewController:[[YGBFirstViewController alloc] init]];
-        [UIApplication sharedApplication].keyWindow.rootViewController = navigationController;
-    }
+//    if (![[NSFileManager defaultManager] fileExistsAtPath:[YGBAppConfigModel getPaht]]) {
+//            [RequestPost apiForGetAppConfigSuccess:^(BOOL go) {
+//                [SLFHUD hideHud];
+//                UINavigationController *navigationController = nil;
+//                navigationController = [[UINavigationController alloc] initWithRootViewController:[[YGBFirstViewController alloc] init]];
+//                [UIApplication sharedApplication].keyWindow.rootViewController = navigationController;
+//            }];
+//    }else {
+//        [SLFHUD hideHud];
+//        UINavigationController *navigationController = nil;
+//        navigationController = [[UINavigationController alloc] initWithRootViewController:[[YGBFirstViewController alloc] init]];
+//        [UIApplication sharedApplication].keyWindow.rootViewController = navigationController;
+//    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -8,11 +8,6 @@
 #import "SLFCommonTools.h"
 #import <sys/utsname.h>
 
-#import "DCHomeViewController.h"
-#import "DCPerspectiveViewController.h"
-#import "DCCelebrityViewController.h"
-#import "DCMineViewController.h"
-
 static SLFCommonTools * tools = nil;
 @implementation SLFCommonTools
 
@@ -37,61 +32,61 @@ static SLFCommonTools * tools = nil;
 #pragma mark - tabbar
 
 +(void)setupTabbarViewControllers:(UIWindow *)window {
-    DCHomeViewController * home = [[DCHomeViewController alloc] init];
-    UINavigationController * homeNav = [[UINavigationController alloc] initWithRootViewController:home];
-    
-    DCPerspectiveViewController * per = [[DCPerspectiveViewController alloc] init];
-    UINavigationController * perNav = [[UINavigationController alloc] initWithRootViewController:per];
-    
-    DCCelebrityViewController * cel = [[DCCelebrityViewController alloc] init];
-    UINavigationController * celNav = [[UINavigationController alloc] initWithRootViewController:cel];
-    
-    DCMineViewController * mine = [[DCMineViewController alloc] init];
-    UINavigationController * mineNav = [[UINavigationController alloc] initWithRootViewController:mine];
-    
-    CYLTabBarController * tabbarController = [[CYLTabBarController alloc] init];
-    
-    NSDictionary * homeDic = @{CYLTabBarItemTitle : @"首页",
-                               CYLTabBarItemImage : @"首页——个人",
-                               CYLTabBarItemSelectedImage : @"首页——个人选中",
-                               };
-    
-    NSDictionary * pvcDic = @{CYLTabBarItemTitle : @"视角圈",
-                              CYLTabBarItemImage : @"首页—职位",
-                              CYLTabBarItemSelectedImage : @"首页—职位选中",
-                              };
-    
-    NSDictionary * infoDic = @{CYLTabBarItemTitle : @"名人",
-                               CYLTabBarItemImage : @"首页——信息",
-                               CYLTabBarItemSelectedImage : @"首页——信息选中",
-                               };
-    
-    NSDictionary * mineDic = @{CYLTabBarItemTitle : @"我的",
-                               CYLTabBarItemImage : @"首页——我的",
-                               CYLTabBarItemSelectedImage : @"首页——我的选中",
-                               };
-    
-    NSArray * tabbarItems = @[homeDic,
-                              pvcDic,
-                              infoDic,
-                              mineDic];
-    
-    tabbarController.tabBarItemsAttributes = tabbarItems;
-    
-    tabbarController.tabBar.tintColor = [SLFCommonTools getNavBarColor];
-    tabbarController.tabBar.barTintColor = [UIColor whiteColor];
-    
-    NSArray * vcs = @[homeNav,
-                      perNav,
-                      celNav,
-                      mineNav];
-    [tabbarController setViewControllers:vcs];
-    if (nil == window) {
-        window = [UIApplication sharedApplication].keyWindow;
-        window.rootViewController = tabbarController;
-    }else {
-        window.rootViewController = tabbarController;
-    }
+//    DCHomeViewController * home = [[DCHomeViewController alloc] init];
+//    UINavigationController * homeNav = [[UINavigationController alloc] initWithRootViewController:home];
+//    
+//    DCPerspectiveViewController * per = [[DCPerspectiveViewController alloc] init];
+//    UINavigationController * perNav = [[UINavigationController alloc] initWithRootViewController:per];
+//    
+//    DCCelebrityViewController * cel = [[DCCelebrityViewController alloc] init];
+//    UINavigationController * celNav = [[UINavigationController alloc] initWithRootViewController:cel];
+//    
+//    DCMineViewController * mine = [[DCMineViewController alloc] init];
+//    UINavigationController * mineNav = [[UINavigationController alloc] initWithRootViewController:mine];
+//    
+//    CYLTabBarController * tabbarController = [[CYLTabBarController alloc] init];
+//    
+//    NSDictionary * homeDic = @{CYLTabBarItemTitle : @"首页",
+//                               CYLTabBarItemImage : @"首页——个人",
+//                               CYLTabBarItemSelectedImage : @"首页——个人选中",
+//                               };
+//    
+//    NSDictionary * pvcDic = @{CYLTabBarItemTitle : @"视角圈",
+//                              CYLTabBarItemImage : @"首页—职位",
+//                              CYLTabBarItemSelectedImage : @"首页—职位选中",
+//                              };
+//    
+//    NSDictionary * infoDic = @{CYLTabBarItemTitle : @"名人",
+//                               CYLTabBarItemImage : @"首页——信息",
+//                               CYLTabBarItemSelectedImage : @"首页——信息选中",
+//                               };
+//    
+//    NSDictionary * mineDic = @{CYLTabBarItemTitle : @"我的",
+//                               CYLTabBarItemImage : @"首页——我的",
+//                               CYLTabBarItemSelectedImage : @"首页——我的选中",
+//                               };
+//    
+//    NSArray * tabbarItems = @[homeDic,
+//                              pvcDic,
+//                              infoDic,
+//                              mineDic];
+//    
+//    tabbarController.tabBarItemsAttributes = tabbarItems;
+//    
+//    tabbarController.tabBar.tintColor = [SLFCommonTools getNavBarColor];
+//    tabbarController.tabBar.barTintColor = [UIColor whiteColor];
+//    
+//    NSArray * vcs = @[homeNav,
+//                      perNav,
+//                      celNav,
+//                      mineNav];
+//    [tabbarController setViewControllers:vcs];
+//    if (nil == window) {
+//        window = [UIApplication sharedApplication].keyWindow;
+//        window.rootViewController = tabbarController;
+//    }else {
+//        window.rootViewController = tabbarController;
+//    }
     
 }
 
@@ -1187,62 +1182,6 @@ static SLFCommonTools * tools = nil;
     return [[NSMutableString alloc] initWithString:[dateFormatter stringFromDate:[NSDate date]]];
 }
 
-//时间显示 刚刚
-+ (NSString *)distanceTimeWithBeforeTime:(double)beTime{
-    
-    NSTimeInterval now = [[NSDate date]timeIntervalSince1970];
-    
-    double distanceTime = now - beTime;
-    
-    NSString * distanceStr;
-    
-    NSDate * beDate = [NSDate dateWithTimeIntervalSince1970:beTime];
-    
-    NSDateFormatter * df = [[NSDateFormatter alloc]init];
-    
-    [df setDateFormat:@"HH:mm"];
-    
-    NSString * timeStr = [df stringFromDate:beDate];
-    
-    [df setDateFormat:@"dd"];
-    
-    NSString * nowDay = [df stringFromDate:[NSDate date]];
-    
-    NSString * lastDay = [df stringFromDate:beDate];
-    
-    if (distanceTime < 60) {//小于一分钟
-        distanceStr = @"刚刚";
-    }else if (distanceTime < 60*60) {//时间小于一个小时
-        distanceStr = [NSString stringWithFormat:@"%ld分钟前",(long)distanceTime/60];
-        
-    }else if(distanceTime < 24*60*60 && [nowDay integerValue] == [lastDay integerValue]){//时间小于一天
-        
-        distanceStr = [NSString stringWithFormat:@"今天 %@",timeStr];
-        
-    }else if(distanceTime< 24*60*60*2 && [nowDay integerValue] != [lastDay integerValue]){
-        if ([nowDay integerValue] - [lastDay integerValue] == 1 || ([lastDay integerValue] - [nowDay integerValue] > 10 && [nowDay integerValue] == 1)) {
-            
-            distanceStr = [NSString stringWithFormat:@"昨天 %@",timeStr];
-        }else{
-            
-            [df setDateFormat:@"MM-dd HH:mm"];
-            
-            distanceStr = [df stringFromDate:beDate];
-        }
-    }else if(distanceTime < 24*60*60*365){
-        
-        [df setDateFormat:@"MM-dd HH:mm"];
-        
-        distanceStr = [df stringFromDate:beDate];
-        
-    }else{
-        [df setDateFormat:@"yyyy-MM-dd HH:mm"];
-        
-        distanceStr = [df stringFromDate:beDate];
-        
-    }
-    return distanceStr;
-}
 //时间戳 转 时间
 +(NSString *)timestamp:(NSTimeInterval)timeTemp formart:(NSString *)mart {
     NSDate * beDate = [NSDate dateWithTimeIntervalSince1970:timeTemp];
@@ -1268,17 +1207,17 @@ static SLFCommonTools * tools = nil;
 }
 //时间 转 时间戳
 + (NSTimeInterval)timeDataToStamp:(NSString *)time format:(NSString *)format {
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    
-    NSMutableString * tTime = [[NSMutableString alloc] initWithString:[formatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:[GVUserDefaults standardUserDefaults].lyServiceHours/1000]]];
-    
-    [tTime replaceCharactersInRange:NSMakeRange(11, 5) withString:time];
-    
-    NSDate *beginDate=[formatter dateFromString:tTime];
-    //转换生时间戳
-    return [beginDate timeIntervalSince1970];
+    return 0;
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//
+//    NSMutableString * tTime = [[NSMutableString alloc] initWithString:[formatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:[GVUserDefaults standardUserDefaults].lyServiceHours/1000]]];
+//
+//    [tTime replaceCharactersInRange:NSMakeRange(11, 5) withString:time];
+//
+//    NSDate *beginDate=[formatter dateFromString:tTime];
+//    //转换生时间戳
+//    return [beginDate timeIntervalSince1970];
 }
 
 #pragma mark - 检查上一次更新时间

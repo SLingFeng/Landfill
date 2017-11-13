@@ -56,7 +56,7 @@
                 // "Don't Allow" on two successive app launches is the same as saying "never allow". The user
                 // can reset this for all apps by going to Settings > General > Reset > Reset Location Warnings.
             case kCLErrorDenied:{
-                [SLFAlert showAlertView:[SLFCommonTools currentViewController] title:nil text:@"打开定位服务来允许用工贝确定您的位置" determineTitle:@"去开启" cancelTitle:@"取消" cancel:1 alertClick:^{
+                [SLFAlert showSystemAlertWithTitle:nil text:@"打开定位服务来允许APP确定您的位置" determineTitle:@"去开启" cancelTitle:@"取消" alertClick:^(BOOL rightClick) {
                     NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
                     if([[UIApplication sharedApplication] canOpenURL:url]) {
                         NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
@@ -79,13 +79,13 @@
 }
 
 -(void)gotoSetupLocation {
-    [SLFAlert showAlertView:[SLFCommonTools currentViewController] title:nil text:@"打开定位服务来允许用工贝确定您的位置" determineTitle:@"开启" cancelTitle:@"取消" cancel:1 alertClick:^{
-        NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-        if([[UIApplication sharedApplication] canOpenURL:url]) {
-            NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
-            [[UIApplication sharedApplication] openURL:url];
-        }
-    }];
+//    [SLFAlert showAlertView:[SLFCommonTools currentViewController] title:nil text:@"打开定位服务来允许用工贝确定您的位置" determineTitle:@"开启" cancelTitle:@"取消" cancel:1 alertClick:^{
+//        NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+//        if([[UIApplication sharedApplication] canOpenURL:url]) {
+//            NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
+//            [[UIApplication sharedApplication] openURL:url];
+//        }
+//    }];
 }
 
 - (void)stopLocation {

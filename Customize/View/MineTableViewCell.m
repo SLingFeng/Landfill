@@ -19,7 +19,7 @@
         _textFiled.placeholder = @"请填写";
         _textFiled.textAlignment = NSTextAlignmentRight;
         
-        kWEAKSELF(weakSelf);
+        kWeakSelf(weakSelf);
 
         [_textFiled mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.offset(-kMainSpace);
@@ -51,18 +51,18 @@
         _imageV = iv;
         
         kContentViewAdd(self.titleLabel, MyLabel);
-        _titleLabel.font = [CommonTools pxFont:30];
-        _titleLabel.textColor = [CommonTools colorHex:@"111111"];
+        _titleLabel.font = [SLFCommonTools pxFont:30];
+        _titleLabel.textColor = [SLFCommonTools colorHex:@"111111"];
         
         kContentViewAdd(self.textField, BaseTextField);
-        _textField.font = [CommonTools pxFont:26];
+        _textField.font = [SLFCommonTools pxFont:26];
         _textField.textAlignment = NSTextAlignmentRight;
         
         kContentViewAdd(self.contentLabel, MyLabel);
-        _contentLabel.font = [CommonTools pxFont:30];
+        _contentLabel.font = [SLFCommonTools pxFont:30];
         _contentLabel.textColor = k666666;
         
-        kWEAKOBJ(weakObj, self.contentView);
+        kWeakObj(weakObj, self.contentView);
         
         [iv mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.offset(-10);
@@ -77,7 +77,7 @@
 
 - (void)setupTitleLayout {
     
-    kWEAKOBJ(weakObj, self.contentView);
+    kWeakObj(weakObj, self.contentView);
     _imageV.hidden = 1;
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -89,7 +89,7 @@
 
 - (void)setupTextFieldLayout {
     
-    kWEAKOBJ(weakObj, self.contentView);
+    kWeakObj(weakObj, self.contentView);
     
     [self setupTitleLayout];
     _contentLabel.hidden = 1;
@@ -109,7 +109,7 @@
 
 - (void)setupContetnLayout {
     
-    kWEAKOBJ(weakObj, self.contentView);
+    kWeakObj(weakObj, self.contentView);
     [self setupTitleLayout];
     _imageV.hidden = 0;
     _textField.hidden = 1;
