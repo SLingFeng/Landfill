@@ -21,6 +21,8 @@ typedef void(^LoginCompleteBlock)(void);
  @param title text
  */
 -(void)setNavigationTitle:(NSString *)title;
+
+- (void)hiddeNaviBar:(BOOL)isHidde;
 /**
  push到下一页面，隐藏Tabbar
 

@@ -12,6 +12,22 @@
 
 @implementation MyBaseViewController
 
+- (void)hiddeNaviBar:(BOOL)isHidde {
+    if (isHidde) {
+        [self setNavBarBgAlpha:@"0.0"];
+        [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] viewImageFromColor:[UIColor clearColor] rect:CGRectMake(0, 0, kScreenW, 20+64)] forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setTintColor:[CommonTools getNavBarColor]];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [CommonTools getNavBarColor]}];
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    }else {
+        [self setNavBarBgAlpha:@"1.0"];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top_bg"] forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    }
+}
+
 -(void)loadView {
     [super loadView];
     self.view.backgroundColor = [UIColor whiteColor];
