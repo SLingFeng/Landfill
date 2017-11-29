@@ -56,13 +56,9 @@
 - (void)textChanged:(NSNotification *)notification
 
 {
-    
     if([[self placeholder] length] == 0)
-        
     {
-        
         return;
-        
     }
     
     
@@ -82,6 +78,7 @@
         [[self viewWithTag:999] setAlpha:0];
         
     }
+    NSString *change = self.text;
     if (_enterNumber) {
         NSString *aString = self.text;
         UITextRange *selectedRange = [self markedTextRange];
@@ -90,13 +87,24 @@
         // 沒有被選取的字才限制文字的輸入字數
         if (!position) {
             if (aString.length > _enterNumber) {
-                self.text = [aString substringToIndex:_enterNumber];
+                
+                if (self.textLocation == -1) {
+                    NSLog(@"输入不含emoji表情");
+                }else {
+                    NSLog(@"输入含emoji表情");
+                    //截取emoji表情前
+                    change = [self.text substringToIndex:self.textLocation];
+                }
+                change = [aString substringToIndex:_enterNumber];
             }
         }
     }
-    if (self.textViewChange) {
-        self.textViewChange(self.text);
+    if (self.text.length != 0) {
+        if (self.textViewChange) {
+            self.textViewChange(change);
+        }
     }
+    
 }
 
 

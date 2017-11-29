@@ -12,6 +12,8 @@
 @property(nonatomic, copy) NSString *placeholder;
 
 @property(nonatomic, retain) UIColor *placeholderColor;
+
+@property (nonatomic, assign) NSInteger textLocation;//这里声明一个全局属性，用来记录输入位置
 /**
  输入的字符数量
  */

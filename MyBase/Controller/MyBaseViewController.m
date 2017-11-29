@@ -15,16 +15,16 @@
 - (void)hiddeNaviBar:(BOOL)isHidde {
     if (isHidde) {
         [self setNavBarBgAlpha:@"0.0"];
-        [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] viewImageFromColor:[UIColor clearColor] rect:CGRectMake(0, 0, kScreenW, 20+64)] forBarMetrics:UIBarMetricsDefault];
-        [self.navigationController.navigationBar setTintColor:[CommonTools getNavBarColor]];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [CommonTools getNavBarColor]}];
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+//        [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] viewImageFromColor:[UIColor clearColor] rect:CGRectMake(0, 0, kScreenW, 20+64)] forBarMetrics:UIBarMetricsDefault];
+//        [self.navigationController.navigationBar setTintColor:[SLFCommonTools getNavBarColor]];
+//        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [SLFCommonTools getNavBarColor]}];
+//        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     }else {
         [self setNavBarBgAlpha:@"1.0"];
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top_bg"] forBarMetrics:UIBarMetricsDefault];
-        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+//        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top_bg"] forBarMetrics:UIBarMetricsDefault];
+//        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+//        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+//        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     }
 }
 
@@ -35,10 +35,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+//    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+//        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+//    }
+    
+    self.pageIndex = 1;
+    
+    [SLFCommonTools setupSatuts:self bai:0];
+    
+    [self setupNavBack:1];
+}
+
+- (void)setupNavBack:(BOOL)isClaer {
+    if (IS_IOS11) {
+        
+        NSString *backStr;
+        if (isClaer) {
+            backStr = @"返回";
+        }else {
+            backStr = @"返回";
+        }
+        
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:@selector(backClick)];
+        self.navigationController.navigationBar.backIndicatorImage = [UIImage imageNamed:backStr];
+        self.navigationController.navigationBar.backIndicatorTransitionMaskImage = [UIImage imageNamed:backStr];
+        self.navigationItem.backBarButtonItem = backItem;
     }
-    [SLFCommonTools setupSatuts:self bai:1];
+}
+
+- (void)backClick {
+    [self.navigationController popViewControllerAnimated:1];
 }
 
 -(void)setNavigationTitle:(NSString *)title {
