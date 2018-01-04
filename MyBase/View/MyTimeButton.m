@@ -64,9 +64,9 @@
 -(void)onClick {
    
     
-//    if (self.onClickStartTiming) {
-//        self.onClickStartTiming(self);
-//    }
+    if (self.onClickStartTiming) {
+        self.onClickStartTiming();
+    }
 }
 
 -(void)timeChange:(NSTimer *)sender {
@@ -84,6 +84,12 @@
     NSInteger temp = _timeNum--;
     self.titleLabel.text = [NSString stringWithFormat:@"重新发送(%ld)", (long)temp];
     [self setTitle:[NSString stringWithFormat:@"重新发送(%ld)", (long)temp] forState:(UIControlStateNormal)];
+}
+
+- (void)reStartTime {
+    if (self.timer == nil && _timeNum < 60) {
+        self.onClickStartTiming();
+    }
 }
 
 -(void)resetTime {

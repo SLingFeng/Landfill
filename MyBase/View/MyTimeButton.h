@@ -18,6 +18,8 @@
  * 点击按钮开始倒计时方法 点击完成后有回调 btn.onClickStartTiming();
  */
 @property (copy, nonatomic) void(^onClickStartTiming)();
+//从上次开始
+- (void)reStartTime;
 /**
  * @author LingFeng, 2016-09-07 11:09:38
  *

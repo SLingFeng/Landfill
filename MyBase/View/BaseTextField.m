@@ -68,12 +68,6 @@
     }
 }
 
--(void)setEnterNumber:(NSInteger)enterNumber {
-    if (_enterNumber != enterNumber) {
-        _enterNumber = enterNumber;
-    }
-}
-
 -(void)TextFieldChange:(BaseTextField *)textField {
     if (textField == self) {
         
