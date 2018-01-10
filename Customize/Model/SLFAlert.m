@@ -149,6 +149,8 @@ static SLFAlert * instance = nil;
     if (ws == nil) {
         ws = [SLFCommonTools currentViewController];
     }
+    [SLFAlert shareSLFAlert].text = nil;
+    
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:title message:text preferredStyle:(UIAlertControllerStyleAlert)];
     
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:cancelTitle style:(UIAlertActionStyleCancel) handler:^(UIAlertAction * _Nonnull action) {
