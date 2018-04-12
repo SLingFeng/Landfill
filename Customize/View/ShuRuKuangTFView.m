@@ -37,6 +37,8 @@
         imageView = [[UIImageView alloc] init];
         imageView.image = [UIImage imageNamed:image];
         [self addSubview:imageView];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(weakSelf).offset(15);
             make.width.mas_equalTo(@18);
@@ -51,17 +53,14 @@
     self.TextField = tf;
     _TextField.placeholder = placeholderText;
     _TextField.font = [SLFCommonTools pxFont:28];
-    [_TextField addTarget:self action:@selector(endTextField:) forControlEvents:(UIControlEventEditingDidEnd)];
-    [_TextField addTarget:self action:@selector(returnKeyClick:) forControlEvents:(UIControlEventEditingDidEndOnExit)];
-    [_TextField addTarget:self action:@selector(TextFieldChange:) forControlEvents:(UIControlEventAllEditingEvents)];
+
     _TextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    
     
     MyLabel * title = nil;
     if (titleText != nil || ![titleText isEqualToString:@""]) {
         title = [[MyLabel alloc] init];
         title.text = titleText;
-        title.font = [SLFCommonTools pxFont:28];
+        title.font = [SLFCommonTools pxFont:30];
         [self addSubview:title];
         self.titleLabel = title;
         CGSize size =[titleText sizeWithAttributes:@{NSFontAttributeName:title.font}];
@@ -94,7 +93,7 @@
         [_TextField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(weakSelf);
             if (title != nil) {
-                make.left.equalTo(title.mas_right).with.offset(5);
+                make.left.equalTo(title.mas_right).with.offset(20);
             }else {
                 make.left.equalTo(imageView.mas_right).with.offset(5);
             }
@@ -158,10 +157,7 @@
         if (self.textFieldChange) {
             self.textFieldChange(textField.text);
         }
-//        if (textField.text.length >= _enterNumber) {
-//            textField.text = [textField.text substringToIndex:_enterNumber];
-//            return;
-//        }
+
     }
 }
 
