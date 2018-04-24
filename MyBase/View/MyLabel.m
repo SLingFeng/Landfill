@@ -18,6 +18,30 @@
 
 @end
 
+@implementation MyYYLabel
+
+-(instancetype)initWithFontSize:(NSInteger)fontSize fontColor:(UIColor *)color setText:(NSString*)title{
+    if (self = [super init]) {
+        self.textColor = color;
+        self.numberOfLines = 0;
+        //        self.userInteractionEnabled = YES;
+        self.font = [SLFCommonTools pxFont:fontSize];//[UIFont systemFontOfSize:kAH(fontSize)];
+        [self setText:title];
+    }
+    return self;
+}
+
+-(void)setMyLabel {
+    //    self.textColor = k111111;
+    self.numberOfLines = 0;
+    self.userInteractionEnabled = YES;
+    self.font = [SLFCommonTools pxFont:28];
+    
+}
+
+
+@end
+
 @implementation MyLabel
 
 -(instancetype)init {
@@ -56,15 +80,39 @@
 }
 
 -(void)setMyLabel {
-    self.textColor = [SLFCommonTools colorHex:@"333333"];
+//    self.textColor = k111111;
     self.numberOfLines = 0;
-    self.userInteractionEnabled = YES;
+//    self.userInteractionEnabled = YES;
     self.font = [SLFCommonTools pxFont:28];
+    
+    
+//    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapLabelClick)]];
 //    self.backgroundColor = kColorRandomly;
 //    UILongPressGestureRecognizer *tap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
 //    tap.minimumPressDuration = 1.0;
 //    [self addGestureRecognizer:tap];
 }
+
+//- (void)tapLabelClick {
+//    if (self.onClick) {
+//        self.onClick();
+//    }
+//}
+
+- (void)setPxFontSize:(CGFloat)pxFontSize {
+    _pxFontSize = pxFontSize;
+    self.font = [SLFCommonTools pxFont:pxFontSize];
+}
+
+- (void)setPxFontColor:(NSString *)pxFontColor {
+    _pxFontColor = pxFontColor;
+    self.textColor = [SLFCommonTools colorHex:pxFontColor];
+}
+
+- (void)setPxBackColor:(NSString *)pxBackColor {
+    self.backgroundColor = [SLFCommonTools colorHex:pxBackColor];
+}
+
 
 - (void)tapGesture:(UITapGestureRecognizer *)tap {
     
@@ -84,6 +132,17 @@
 - (BOOL)canBecomeFirstResponder {
     
     return YES;
+}
+
+- (UIView *)view {
+    if (!_view) {
+        _view = [[UIView alloc] initWithFrame:self.bounds];
+        [self addSubview:_view];
+        [_view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.insets(UIEdgeInsetsZero);
+        }];
+    }
+    return _view;
 }
 
 
