@@ -26,14 +26,8 @@
  */
 @property (copy, nonatomic) NSString * hudText;
 
-@property (retain, nonatomic) UITextField * returnNext;
 
-@property (copy, nonatomic) void(^btnClickChange)();
-@property (copy, nonatomic) void(^returnKeyClick)();
-/**
- 输入改变时
- */
-@property (copy, nonatomic) void(^textFieldChange)(NSString *);
+@property (copy, nonatomic) void(^btnClickChange)(void);
 /**
  initWithSelect的点击方法
  */
@@ -60,4 +54,6 @@
 -(instancetype)initWithSelectToPay:(NSString *)titleText;
 -(instancetype)initWithSelectTitleArr:(NSArray *)titles imageArr:(NSArray <NSString *>*)imageArr;
 
+
+-(void)createToTitle:(NSString *)titleText placeholder:(NSString *)placeholderText image:(NSString *)image custom:(UIView *)custom;
 @end

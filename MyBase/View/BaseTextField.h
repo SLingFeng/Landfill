@@ -25,6 +25,9 @@ typedef enum : NSUInteger {
 @property (assign, nonatomic) NSInteger enterNumber;
 
 @property (assign, nonatomic) BaseTextFieldEnterType enterType;
+
+@property (retain, nonatomic) UITextField * returnNext;
+
 /**
  输入改变时
  */

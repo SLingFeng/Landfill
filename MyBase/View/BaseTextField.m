@@ -67,6 +67,9 @@
 }
 
 -(void)returnKeyClick:(BaseTextField *)tf {
+    if (_returnNext != nil) {
+        [_returnNext becomeFirstResponder];
+    }
     if (self.returnKeyClick) {
         self.returnKeyClick(tf);
     }

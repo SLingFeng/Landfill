@@ -126,40 +126,12 @@
     }
 }
 
--(void)returnKeyClick:(UITextField *)tf {
-//    [tf becomeFirstResponder];
-    if (_returnNext != nil) {
-        [_returnNext becomeFirstResponder];
-    }
-    if (self.returnKeyClick) {
-        self.returnKeyClick();
-    }
-}
-
 -(void)setEnterNumber:(NSInteger)enterNumber {
     if (_enterNumber != enterNumber) {
         _enterNumber = enterNumber;
     }
 }
 
--(void)TextFieldChange:(UITextField *)textField {
-    if (textField == _TextField) {
-        NSString *aString = textField.text;
-        UITextRange *selectedRange = [textField markedTextRange];
-        // 獲取被選取的文字區域（在打注音時，還沒選字以前注音會被選起來）
-        UITextPosition *position = [textField positionFromPosition:selectedRange.start offset:0];
-        // 沒有被選取的字才限制文字的輸入字數
-        if (!position) {
-            if (aString.length > _enterNumber) {
-                textField.text = [aString substringToIndex:_enterNumber];
-            }
-        }
-        if (self.textFieldChange) {
-            self.textFieldChange(textField.text);
-        }
-
-    }
-}
 
 #pragma -
 -(instancetype)initWithSelect {
