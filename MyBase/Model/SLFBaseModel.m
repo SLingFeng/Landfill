@@ -154,6 +154,18 @@ void checkEntity(NSObject *object) {
     return [NSHomeDirectory() stringByAppendingFormat:@"/Documents/appConfig.dat"];
 }
 
++ (NSString *)getPaht:(NSString *)name {
+    return [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@.dat", name];
+}
+
+- (BOOL)saveAppConfig:(NSString *)name {
+    return [NSKeyedArchiver archiveRootObject:self toFile:[NSHomeDirectory() stringByAppendingFormat:@"%@", [SLFBaseModel getPaht:name]]];
+}
+
+- (instancetype)readData:(NSString *)name {
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:[NSHomeDirectory() stringByAppendingFormat:@"%@", [SLFBaseModel getPaht:name]]];
+}
+
 @end
 
 @implementation SLFResponseModel

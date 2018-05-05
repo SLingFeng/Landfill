@@ -234,8 +234,8 @@
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
     switch (self.tState) {
-        case MyTableViewStateCustomize:
-            return [UIImage imageNamed:self.loadImage];
+        case MyTableViewStateCustomize: MyTableViewStateImage:
+            return self.loadImage;
             break;
             
         default:

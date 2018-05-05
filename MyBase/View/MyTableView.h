@@ -19,6 +19,7 @@ typedef enum : NSUInteger {
      可选：loadButtonTitle loadDescription
      */
     MyTableViewStateCustomize,
+    MyTableViewStateImage,//图片显示
 } MyTableViewState;
 
 @interface MyTableView : UITableView
@@ -49,7 +50,7 @@ typedef enum : NSUInteger {
 /**
  自定义加载 图片
  */
-@property (copy, nonatomic) NSString * loadImage;
+@property (retain, nonatomic) UIImage * loadImage;
 /**
  自定义加载 按钮方法
  */

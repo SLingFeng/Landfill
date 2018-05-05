@@ -209,6 +209,18 @@
 //    return -300;
 //}
 
+//图片
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+    switch (self.cState) {
+        case MyCollectionViewStateCustomize: MyCollectionViewStateImage:
+            return self.loadImage;
+            break;
+            
+        default:
+            return nil;
+            break;
+    }
+}
 
 //source
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {

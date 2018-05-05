@@ -20,6 +20,7 @@ typedef enum : NSUInteger {
      可选：loadButtonTitle loadDescription
      */
     MyCollectionViewStateCustomize,
+    MyCollectionViewStateImage,//自定义图片
 } MyCollectionViewState;
 
 @interface MyCollectionView : UICollectionView
@@ -38,9 +39,13 @@ typedef enum : NSUInteger {
  */
 @property (copy, nonatomic) NSString * loadButtonTitle;
 /**
+ 自定义加载 图片
+ */
+@property (retain, nonatomic) UIImage * loadImage;
+/**
  按钮方法
  */
-@property (copy, nonatomic) void(^stateOnClickBlock)();
+@property (copy, nonatomic) void(^stateOnClickBlock)(void);
 
 @property (assign, nonatomic) MyTableViewState cState;
 #pragma mark -
@@ -61,11 +66,11 @@ typedef enum : NSUInteger {
  *
  * 下拉刷新方法
  */
-@property (copy, nonatomic) void (^headerRefresh)();
+@property (copy, nonatomic) void (^headerRefresh)(void);
 /**
  * @author LingFeng, 2016-06-30 14:06:36
  *
  * 上拉加载方法
  */
-@property (copy, nonatomic) void (^footerRefresh)();
+@property (copy, nonatomic) void (^footerRefresh)(void);
 @end

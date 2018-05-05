@@ -39,19 +39,26 @@ return instance;\
  @return <#return value description#>
  */
 + (NSString *)getPaht;
+
++ (NSString *)getPaht:(NSString *)name;
+
+- (BOOL)saveAppConfig:(NSString *)name;
+- (instancetype)readData:(NSString *)name;
 @end
 
 
 @interface SLFResponseModel : SLFBaseModel
 
 /**
- 状态码 0：正常请求 1：token 错误，2：会话过期 3非法请求
+ 状态码
  */
-@property (nonatomic, assign) NSInteger code;
+@property (nonatomic, assign) NSInteger ret;
 /**
  原因,类型:字符串
  */
 @property (nonatomic, copy) NSString * msg;
+
+@property (nonatomic, retain) NSNumber *code;
 /**
  验证结果,字符串 1:操作成功，0:操作失败
  */
