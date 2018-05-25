@@ -80,6 +80,10 @@
     return self;
 }
 
++(instancetype)buttonWithType:(UIButtonType)buttonType fontSize:(NSInteger)fontSize fontColor:(UIColor *)color fontText:(NSString *)text {
+    return [MyButton buttonWithType:buttonType fontSize:fontSize fontColor:color fontText:text backg:[UIColor clearColor] radius:0 borderColor:[UIColor clearColor] borderWidth:0];
+}
+
 +(instancetype)buttonWithType:(UIButtonType)buttonType fontSize:(NSInteger)fontSize fontColor:(UIColor *)color fontText:(NSString *)text backg:(UIColor *)backg radius:(CGFloat)radius borderColor:(UIColor *)borderColor borderWidth:(CGFloat)borderWidth {
     MyButton * btn = [super buttonWithType:buttonType];
     [btn setTitleColor:color forState:(UIControlStateNormal)];
@@ -95,7 +99,7 @@
 }
 
 -(void)setupButton {
-    
+//    [self setTitleColor:kA1A1A1 forState:(UIControlStateDisabled)];
 //    [self setTitleColor:RGBCOLOR(51, 51, 51) forState:(UIControlStateNormal)];
 //    //    圆角
 //    self.layer.cornerRadius = 3;
@@ -125,6 +129,47 @@
     [self setTitleColor:color forState:(UIControlStateNormal)];
     self.titleLabel.font = [SLFCommonTools pxFont:fontSize];
     [self setBackgroundColor:backg];
+}
+
+- (void)setImageTopAndTitleBottom:(NSString *)str {
+    NSString * buttonSelectedTitle = str;
+    [self setTitle:buttonSelectedTitle forState:UIControlStateNormal];
+    
+    CGPoint buttonBoundsCenter = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+    
+    // 找出imageView最终的center
+    CGPoint endImageViewCenter = CGPointMake(buttonBoundsCenter.x, CGRectGetMidY(self.imageView.bounds));
+    
+    // 找出titleLabel最终的center
+    CGPoint endTitleLabelCenter = CGPointMake(buttonBoundsCenter.x, CGRectGetHeight(self.bounds)-CGRectGetMidY(self.titleLabel.bounds));
+    
+    // 取得imageView最初的center
+    CGPoint startImageViewCenter = self.imageView.center;
+    
+    // 取得titleLabel最初的center
+    CGPoint startTitleLabelCenter = self.titleLabel.center;
+    
+    // 设置imageEdgeInsets
+    CGFloat imageEdgeInsetsTop = endImageViewCenter.y - startImageViewCenter.y;
+    
+    CGFloat imageEdgeInsetsLeft = endImageViewCenter.x - startImageViewCenter.x;
+    
+    CGFloat imageEdgeInsetsBottom = -imageEdgeInsetsTop;
+    
+    CGFloat imageEdgeInsetsRight = -imageEdgeInsetsLeft;
+    
+    self.imageEdgeInsets = UIEdgeInsetsMake(imageEdgeInsetsTop, imageEdgeInsetsLeft, imageEdgeInsetsBottom, imageEdgeInsetsRight);
+    
+    // 设置titleEdgeInsets
+    CGFloat titleEdgeInsetsTop = endTitleLabelCenter.y-startTitleLabelCenter.y;
+    
+    CGFloat titleEdgeInsetsLeft = endTitleLabelCenter.x - startTitleLabelCenter.x;
+    
+    CGFloat titleEdgeInsetsBottom = -titleEdgeInsetsTop;
+    
+    CGFloat titleEdgeInsetsRight = -titleEdgeInsetsLeft;
+    
+    self.titleEdgeInsets = UIEdgeInsetsMake(titleEdgeInsetsTop, titleEdgeInsetsLeft, titleEdgeInsetsBottom, titleEdgeInsetsRight);
 }
 
 /*

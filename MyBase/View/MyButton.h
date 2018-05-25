@@ -32,6 +32,12 @@ typedef enum : NSUInteger {
 
 - (instancetype)initWithFontSize:(NSInteger)fontSize fontColor:(UIColor *)color fontText:(NSString *)text backg:(UIColor *)backg radius:(CGFloat)radius borderColor:(UIColor *)borderColor borderWidth:(CGFloat)borderWidth;
 
++(instancetype)buttonWithType:(UIButtonType)buttonType fontSize:(NSInteger)fontSize fontColor:(UIColor *)color fontText:(NSString *)text;
+
 +(instancetype)buttonWithType:(UIButtonType)buttonType fontSize:(NSInteger)fontSize fontColor:(UIColor *)color fontText:(NSString *)text backg:(UIColor *)backg radius:(CGFloat)radius borderColor:(UIColor *)borderColor borderWidth:(CGFloat)borderWidth;
 - (void)setBtnWithFontSize:(NSInteger)fontSize fontColor:(UIColor *)color backg:(UIColor *)backg;
+
+
+//设置上图片 下标题
+- (void)setImageTopAndTitleBottom:(NSString *)str;
 @end
