@@ -103,7 +103,8 @@
             text = @"未知错误";
         }
             break;
-        case MyTableViewStateCustomize: {
+        case MyTableViewStateCustomize:
+        case MyTableViewStateImage: {
             text = _loadTitle;
         }
             break;
@@ -142,7 +143,8 @@
             text = @"未知错误";
         }
             break;
-        case MyTableViewStateCustomize: {
+        case MyTableViewStateCustomize:
+        case MyTableViewStateImage: {
             if (!kStringIsEmpty(_loadDescription)) {
                 text = _loadDescription;
             }
@@ -229,12 +231,13 @@
 }
 
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView {
-    return [UIColor whiteColor];
+    return [UIColor clearColor];
 }
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
     switch (self.tState) {
-        case MyTableViewStateCustomize: MyTableViewStateImage:
+        case MyTableViewStateCustomize:
+        case MyTableViewStateImage:
             return self.loadImage;
             break;
             

@@ -101,18 +101,27 @@
 
 - (void)setPxFontSize:(CGFloat)pxFontSize {
     _pxFontSize = pxFontSize;
-    self.font = [SLFCommonTools pxFont:pxFontSize];
+    self.font = [SLFCommonTools pxFont:_pxFontSize];
 }
 
 - (void)setPxFontColor:(NSString *)pxFontColor {
     _pxFontColor = pxFontColor;
-    self.textColor = [SLFCommonTools colorHex:pxFontColor];
+    self.textColor = [SLFCommonTools colorHex:_pxFontColor];
 }
 
 - (void)setPxBackColor:(NSString *)pxBackColor {
-    self.backgroundColor = [SLFCommonTools colorHex:pxBackColor];
+    _pxBackColor = pxBackColor;
+    self.backgroundColor = [SLFCommonTools colorHex:_pxBackColor];
 }
 
+- (void)setFont:(UIFont *)font {
+    if (_pxFontSize <= 0) {
+        [super setFont:font];
+    }else {
+        [super setFont:[SLFCommonTools pxFont:_pxFontSize]];
+    }
+    
+}
 
 - (void)tapGesture:(UITapGestureRecognizer *)tap {
     
