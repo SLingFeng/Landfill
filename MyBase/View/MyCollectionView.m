@@ -96,7 +96,8 @@
                 text = @"未知错误";
             }
             break;
-            case MyTableViewStateCustomize: {
+            case MyTableViewStateCustomize:
+            case MyCollectionViewStateImage: {
                 text = _loadTitle;
             }
             break;
@@ -176,7 +177,8 @@
                 text = @"点击刷新";
             }
             break;
-            case MyTableViewStateCustomize: {
+            case MyTableViewStateCustomize:
+            case MyTableViewStateImage: {
                 if (kStringIsEmpty(_loadButtonTitle)) {
                     //                text = @"点击刷新";
                 }else {
@@ -212,7 +214,8 @@
 //图片
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
     switch (self.cState) {
-        case MyCollectionViewStateCustomize: MyCollectionViewStateImage:
+        case MyCollectionViewStateCustomize:
+        case MyCollectionViewStateImage:
             return self.loadImage;
             break;
             
