@@ -7,40 +7,7 @@
 #import "MyLabel.h"
 #import <CoreText/CoreText.h>
 
-@implementation UILabel (Font)
 
-- (void)changeFont:(UIFont *)font
-{
-    if (font) {
-        [self setFont:font];
-    }
-}
-
-@end
-
-@implementation MyYYLabel
-
--(instancetype)initWithFontSize:(NSInteger)fontSize fontColor:(UIColor *)color setText:(NSString*)title{
-    if (self = [super init]) {
-        self.textColor = color;
-        self.numberOfLines = 0;
-        //        self.userInteractionEnabled = YES;
-        self.font = [SLFCommonTools pxFont:fontSize];//[UIFont systemFontOfSize:kAH(fontSize)];
-        [self setText:title];
-    }
-    return self;
-}
-
--(void)setMyLabel {
-    //    self.textColor = k111111;
-    self.numberOfLines = 0;
-    self.userInteractionEnabled = YES;
-    self.font = [SLFCommonTools pxFont:28];
-    
-}
-
-
-@end
 
 @implementation MyLabel
 
@@ -154,6 +121,16 @@
     return _view;
 }
 
+- (void)LabelAlightLeftAndRightWithWidth:(CGFloat)labelWidth {
+    CGSize testSize = [self.text boundingRectWithSize:CGSizeMake(labelWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingTruncatesLastVisibleLine| NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName :self.font} context:nil].size;
+    
+    CGFloat margin = (labelWidth - testSize.width)/(self.text.length - 1);
+    NSNumber *number = [NSNumber numberWithFloat:margin];
+    NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:self.text];
+    
+    [attribute addAttribute: NSKernAttributeName value:number range:NSMakeRange(0, self.text.length - 1 )];
+    self.attributedText = attribute;
+}
 
 /** 该方法如果返回为YES，那么menu会出现UIResponderStandardEditActions里所有的字段，如cut，copy，paste，select，selectAll等等。
  当然，也可以不写这2句，

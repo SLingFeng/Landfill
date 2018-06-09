@@ -6,9 +6,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UILabel (Font)
-- (void)changeFont:(UIFont *)font;
-@end
 
 
 
@@ -25,10 +22,8 @@
 @property (nonatomic, copy) IBInspectable NSString *pxBackColor;
 
 - (instancetype)initWithFontSize:(NSInteger)fontSize fontColor:(UIColor *)color setText:(NSString *)title;
+//分散对齐
+- (void)LabelAlightLeftAndRightWithWidth:(CGFloat)labelWidth;
 
 @end
 
-@interface MyYYLabel : YYLabel
-- (instancetype)initWithFontSize:(NSInteger)fontSize fontColor:(UIColor *)color setText:(NSString *)title;
-
-@end
