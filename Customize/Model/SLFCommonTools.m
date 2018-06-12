@@ -8,6 +8,7 @@
 #import "SLFCommonTools.h"
 #import <sys/utsname.h>
 
+
 static SLFCommonTools * tools = nil;
 @implementation SLFCommonTools
 
@@ -32,53 +33,60 @@ static SLFCommonTools * tools = nil;
 #pragma mark - tabbar
 
 +(void)setupTabbarViewControllers:(UIWindow *)window {
-//    DCHomeViewController * home = [[DCHomeViewController alloc] init];
+    [UIView transitionWithView:[UIApplication sharedApplication].keyWindow duration:0.5f options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+        BOOL oldState = [UIView areAnimationsEnabled];
+        [UIView setAnimationsEnabled:NO];
+        [UIApplication sharedApplication].keyWindow.rootViewController = [[YL_MainNavgationController alloc] initWithRootViewController:[[FY_HomeViewController alloc] init]];
+        [UIView setAnimationsEnabled:oldState];
+    } completion:^(BOOL finished) {
+    }];
+//    YL_HomeLiveListViewController * home = [[YL_HomeLiveListViewController alloc] init];
 //    UINavigationController * homeNav = [[UINavigationController alloc] initWithRootViewController:home];
-//    
-//    DCPerspectiveViewController * per = [[DCPerspectiveViewController alloc] init];
+//
+//    YL_AttentionLiveViewController * per = [[YL_AttentionLiveViewController alloc] init];
 //    UINavigationController * perNav = [[UINavigationController alloc] initWithRootViewController:per];
-//    
-//    DCCelebrityViewController * cel = [[DCCelebrityViewController alloc] init];
-//    UINavigationController * celNav = [[UINavigationController alloc] initWithRootViewController:cel];
-//    
-//    DCMineViewController * mine = [[DCMineViewController alloc] init];
+//
+////    MineViewController * cel = [[MineViewController alloc] init];
+////    UINavigationController * celNav = [[UINavigationController alloc] initWithRootViewController:cel];
+////
+//    MineViewController * mine = [[MineViewController alloc] init];
 //    UINavigationController * mineNav = [[UINavigationController alloc] initWithRootViewController:mine];
-//    
-//    CYLTabBarController * tabbarController = [[CYLTabBarController alloc] init];
-//    
+//
+//    YL_MainTabBarViewController * tabbarController = [[YL_MainTabBarViewController alloc] init];
+//
 //    NSDictionary * homeDic = @{CYLTabBarItemTitle : @"首页",
-//                               CYLTabBarItemImage : @"首页——个人",
-//                               CYLTabBarItemSelectedImage : @"首页——个人选中",
+//                               CYLTabBarItemImage : @"home",
+//                               CYLTabBarItemSelectedImage : @"home.",
 //                               };
-//    
-//    NSDictionary * pvcDic = @{CYLTabBarItemTitle : @"视角圈",
-//                              CYLTabBarItemImage : @"首页—职位",
-//                              CYLTabBarItemSelectedImage : @"首页—职位选中",
+//
+//    NSDictionary * pvcDic = @{CYLTabBarItemTitle : @"关注",
+//                              CYLTabBarItemImage : @"eye",
+//                              CYLTabBarItemSelectedImage : @"eye.",
 //                              };
-//    
-//    NSDictionary * infoDic = @{CYLTabBarItemTitle : @"名人",
-//                               CYLTabBarItemImage : @"首页——信息",
-//                               CYLTabBarItemSelectedImage : @"首页——信息选中",
-//                               };
-//    
+//
+////    NSDictionary * infoDic = @{CYLTabBarItemTitle : @"消息",
+////                               CYLTabBarItemImage : @"首页——信息",
+////                               CYLTabBarItemSelectedImage : @"首页——",
+////                               };
+//
 //    NSDictionary * mineDic = @{CYLTabBarItemTitle : @"我的",
-//                               CYLTabBarItemImage : @"首页——我的",
-//                               CYLTabBarItemSelectedImage : @"首页——我的选中",
+//                               CYLTabBarItemImage : @"my",
+//                               CYLTabBarItemSelectedImage : @"my.",
 //                               };
-//    
+//
 //    NSArray * tabbarItems = @[homeDic,
 //                              pvcDic,
-//                              infoDic,
+////                              infoDic,
 //                              mineDic];
-//    
+//
 //    tabbarController.tabBarItemsAttributes = tabbarItems;
-//    
+//
 //    tabbarController.tabBar.tintColor = [SLFCommonTools getNavBarColor];
 //    tabbarController.tabBar.barTintColor = [UIColor whiteColor];
-//    
+//
 //    NSArray * vcs = @[homeNav,
 //                      perNav,
-//                      celNav,
+////                      celNav,
 //                      mineNav];
 //    [tabbarController setViewControllers:vcs];
 //    if (nil == window) {
@@ -88,6 +96,16 @@ static SLFCommonTools * tools = nil;
 //        window.rootViewController = tabbarController;
 //    }
     
+}
+
++ (void)exit {
+    [UIView transitionWithView:[UIApplication sharedApplication].keyWindow duration:1.0f options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
+        BOOL oldState = [UIView areAnimationsEnabled];
+        [UIView setAnimationsEnabled:NO];
+        [UIApplication sharedApplication].keyWindow.rootViewController = [[YL_MainNavgationController alloc] initWithRootViewController:[[FY_LoginViewController alloc] init]];
+        [UIView setAnimationsEnabled:oldState];
+    } completion:^(BOOL finished) {
+    }];
 }
 
 //查找当前vc
@@ -208,23 +226,15 @@ static SLFCommonTools * tools = nil;
 }
 #pragma mark - 自适应宽高
 +(CGFloat)adaptiveWidth:(CGFloat)width {
-//    if (ISiPhone5) {
-//        return width*(kScreenW/375);
-//    }else if (ISiPhone6) {
-//        return width*(kScreenW/375);
-//    }else {
         return width*(kScreenW/375);
-//    }
 }
 
 +(CGFloat)adaptiveHeight:(CGFloat)height {
-//    if (ISiPhone5) {
-//        return height*(kScreenH/568);
-//    }else if (ISiPhone6) {
-//        return height*(kScreenH/667);
-//    }else {
+    if (IS_IPHONEX) {
+        return height*(kScreenH/812);
+    }else {
         return height*(kScreenH/667);
-//    }
+    }
 }
 
 #pragma mark - 比例
@@ -248,11 +258,11 @@ static SLFCommonTools * tools = nil;
 }
 
 +(UIColor *)getNavBarColor {
-    return [SLFCommonTools colorHex:@"ff0000"];
+    return kMainColor;
 }
 
 +(UIColor *)getNavTintTextColor {
-    UIColor * color = [UIColor whiteColor];
+    UIColor * color = [UIColor blackColor];
     return color;
 }
 
@@ -335,41 +345,43 @@ static SLFCommonTools * tools = nil;
     
     return [UIColor colorWithRed:((float) r / 255.0f) green:((float) g / 255.0f) blue:((float) b / 255.0f) alpha:1.0f];
 }
-+ (UIColor *)colorHex:(NSString *)color alpha:(CGFloat)alpha
++ (UIColor *)colorHex:(NSInteger)color alpha:(CGFloat)alpha
 {
-    NSString *cString = [[color stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
-    
-    // String should be 6 or 8 characters
-    if ([cString length] < 6) {
-        return [UIColor clearColor];
-    }
-    
-    // strip 0X if it appears
-    if ([cString hasPrefix:@"0X"])
-        cString = [cString substringFromIndex:2];
-    if ([cString hasPrefix:@"#"])
-        cString = [cString substringFromIndex:1];
-    if ([cString length] != 6)
-        return [UIColor clearColor];
-    // Separate into r, g, b substrings
-    NSRange range;
-    range.location = 0;
-    range.length = 2;
-    //r
-    NSString *rString = [cString substringWithRange:range];
-    //g
-    range.location = 2;
-    NSString *gString = [cString substringWithRange:range];
-    //b
-    range.location = 4;
-    NSString *bString = [cString substringWithRange:range];
-    // Scan values
-    unsigned int r, g, b;
-    [[NSScanner scannerWithString:rString] scanHexInt:&r];
-    [[NSScanner scannerWithString:gString] scanHexInt:&g];
-    [[NSScanner scannerWithString:bString] scanHexInt:&b];
-    
-    return [UIColor colorWithRed:((float) r / 255.0f) green:((float) g / 255.0f) blue:((float) b / 255.0f) alpha:alpha];
+    return [UIColor colorWithRed:((float)((color & 0xFF0000) >> 16))/255.0 green:((float)((color & 0xFF00) >> 8))/255.0 blue:((float)(color & 0xFF))/255.0 alpha:alpha];
+//    return HEXCOLORA(<#rgbValue#>, a)
+//    NSString *cString = [[color stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
+//
+//    // String should be 6 or 8 characters
+//    if ([cString length] < 6) {
+//        return [UIColor clearColor];
+//    }
+//
+//    // strip 0X if it appears
+//    if ([cString hasPrefix:@"0X"])
+//        cString = [cString substringFromIndex:2];
+//    if ([cString hasPrefix:@"#"])
+//        cString = [cString substringFromIndex:1];
+//    if ([cString length] != 6)
+//        return [UIColor clearColor];
+//    // Separate into r, g, b substrings
+//    NSRange range;
+//    range.location = 0;
+//    range.length = 2;
+//    //r
+//    NSString *rString = [cString substringWithRange:range];
+//    //g
+//    range.location = 2;
+//    NSString *gString = [cString substringWithRange:range];
+//    //b
+//    range.location = 4;
+//    NSString *bString = [cString substringWithRange:range];
+//    // Scan values
+//    unsigned int r, g, b;
+//    [[NSScanner scannerWithString:rString] scanHexInt:&r];
+//    [[NSScanner scannerWithString:gString] scanHexInt:&g];
+//    [[NSScanner scannerWithString:bString] scanHexInt:&b];
+//
+//    return [UIColor colorWithRed:((float) r / 255.0f) green:((float) g / 255.0f) blue:((float) b / 255.0f) alpha:alpha];
 }
 #pragma mark - tableViewCell下面的线位置
 +(void)tableCellSeparator:(UITableView *)table left:(CGFloat)left right:(CGFloat)right {
@@ -891,9 +903,9 @@ static SLFCommonTools * tools = nil;
         //自定义返回按钮
         UIImage *backButtonImage = nil;
         if (bai) {
-            backButtonImage = [[UIImage imageNamed:@"返回"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+            backButtonImage = [[UIImage imageNamed:@"back"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
         }else {
-            backButtonImage = [[UIImage imageNamed:@"返回键"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+            backButtonImage = [[UIImage imageNamed:@"back"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
         }
         //    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backButtonImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
         [[UINavigationBar appearance] setBackIndicatorImage:backButtonImage];
@@ -908,15 +920,19 @@ static SLFCommonTools * tools = nil;
 
 +(void)setupSatuts:(UIViewController *)weak bai:(BOOL)bai {
     if (bai) {
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-        [weak.navigationController.navigationBar setBarTintColor:[SLFCommonTools getNavBarColor]];
-        [weak.navigationController.navigationBar setTintColor:[SLFCommonTools getNavTintTextColor]];
-        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [SLFCommonTools getNavTintTextColor]}];
-    }else {
         [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
         [weak.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
         [weak.navigationController.navigationBar setTintColor:[UIColor blackColor]];
         [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+//        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], NSFontAttributeName : [SLFCommonTools pxFont:44]}];
+
+    }else {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+        [weak.navigationController.navigationBar setBarTintColor:[SLFCommonTools getNavBarColor]];
+        [weak.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : kFFFFFF}];
+//        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [SLFCommonTools getNavTintTextColor], NSFontAttributeName : [SLFCommonTools pxFont:44]}];
+
     }
     weak.navigationController.navigationBar.translucent= NO;
 }

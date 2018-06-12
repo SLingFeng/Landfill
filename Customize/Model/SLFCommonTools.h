@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define kMainColor @"ff0000"
 
 @interface SLFCommonTools : NSObject
 
@@ -19,6 +18,8 @@
  *  设置tabbar
  */
 +(void)setupTabbarViewControllers:(UIWindow *)window;
+
++ (void)exit;
 /**
  查找当前vc
  
@@ -148,7 +149,7 @@
 
 //颜色转换 IOS中十六进制的颜色转换为UIColor
 + (UIColor *)colorHex:(NSString *)color;
-+ (UIColor *)colorHex:(NSString *)color alpha:(CGFloat)alpha;
++ (UIColor *)colorHex:(NSInteger)color alpha:(CGFloat)alpha;
 #pragma mark - tableViewCell下面的线位置
 +(void)tableCellSeparator:(UITableView *)table left:(CGFloat)left right:(CGFloat)right;
 #pragma mark - 画线
