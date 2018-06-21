@@ -73,6 +73,8 @@ typedef void(^callDoneAndTextAndObj)(BOOL done, NSString *text, id obj);
  */
 + (void)POST:(NSString *)URLString parameters:(id) parameters constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block success:(void (^)(SLFResponseModel * response))success failure:(void (^)(NSError * error))failure;
 
+///进度
++ (void)noPOST:(NSString *)URLString parameters:(id)parameters progress:(void (^)(NSProgress * _Nonnull))up success:(void (^)(SLFResponseModel * response))success failure:(void (^)(NSError * error))failure;
 /**
  * @author LingFeng, 2016-08-26 09:08:37
  *

@@ -33,9 +33,13 @@ static RequestPost * rp = nil;
 
 +(AFHTTPSessionManager *)mySessionMageager {
     AFHTTPSessionManager * session = [AFHTTPSessionManager manager];
-    session.requestSerializer.timeoutInterval = 60;
+#ifdef DEBUG
+    session.requestSerializer.timeoutInterval = 15;
+    //#else
+    //    session.requestSerializer.timeoutInterval = 60;
+#endif
     session.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
-    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/html", @"text/plain", @"application/javascript", @"application/x-javascript", @"text/x-javascript", @"text/x-json", @"application/x-www-form-urlencoded", @"multipart/form-data", nil];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/html", @"text/plain", @"application/javascript", @"application/x-javascript", @"text/x-javascript", @"text/x-json", @"application/x-www-form-urlencoded", @"multipart/form-data", @"image/jpeg", @"image/png", nil];
 //    [RequestPost setHttpHeader:session];
     
     [session setSecurityPolicy:[RequestPost customSecurityPolicy]];
@@ -44,17 +48,17 @@ static RequestPost * rp = nil;
 
 #pragma mark - 设置HTTPHeader
 +(void)setHttpHeader:(AFHTTPSessionManager *)session {
-    NSDate *datenow = [NSDate date];
-    NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[datenow timeIntervalSince1970]];
-    NSString * device = @"device_1.0.0";
-    NSString * md = [NSString stringWithFormat:@"%@%@%@",timeSp, Key, device];
-    NSString *codeAll = [NSString MD5:md isUp:0];
-    NSString *code = [codeAll substringToIndex:28];
-    [session.requestSerializer setValue:timeSp forHTTPHeaderField:@"check-time"];
-    [session.requestSerializer setValue:code forHTTPHeaderField:@"check-md5"];
-    if ([GVUserDefaults standardUserDefaults].ygbUserToken != nil && ![[GVUserDefaults standardUserDefaults].ygbUserToken isEqualToString:@""]) {
-        [session.requestSerializer setValue:[GVUserDefaults standardUserDefaults].ygbUserToken forHTTPHeaderField:@"check-token"];
-    }
+//    NSDate *datenow = [NSDate date];
+//    NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[datenow timeIntervalSince1970]];
+//    NSString * device = @"device_1.0.0";
+//    NSString * md = [NSString stringWithFormat:@"%@%@%@",timeSp, Key, device];
+//    NSString *codeAll = [NSString MD5:md isUp:0];
+//    NSString *code = [codeAll substringToIndex:28];
+//    [session.requestSerializer setValue:timeSp forHTTPHeaderField:@"check-time"];
+//    [session.requestSerializer setValue:code forHTTPHeaderField:@"check-md5"];
+//    if ([GVUserDefaults standardUserDefaults].ygbUserToken != nil && ![[GVUserDefaults standardUserDefaults].ygbUserToken isEqualToString:@""]) {
+//        [session.requestSerializer setValue:[GVUserDefaults standardUserDefaults].ygbUserToken forHTTPHeaderField:@"check-token"];
+//    }
 }
 #pragma mark - 证书
 +(AFSecurityPolicy *)customSecurityPolicy {     //简单封装一下
@@ -97,139 +101,100 @@ static RequestPost * rp = nil;
         completionHandler(disposition, credential);
     }
 }
++ (SLFResponseModel *)successBlock:(NSDictionary *)responseObject task:(NSURLSessionDataTask *)task {
+    
+    
+    [SLFHUD hideHud];
+    NSDictionary * data = responseObject;
+    NSError *error;
+    SLFResponseModel *response = [[SLFResponseModel alloc] initWithDictionary:data error:&error];
+    
+    if ([RequestPost check:data]) {
+        //请求成功
+        if ([response.code isEqualToString:@"101"]) {
+            response.success = YES;
+        }else {
+            response.data = @{};
+            response.success = NO;
+        }
+        
+        if (error == nil) {
+            return response;
+        }else {
+            [task cancel];
+        }
+    }
+    return nil;
+}
+
++ (NSError *)failureBlock:(NSError *)error task:(NSURLSessionDataTask *)task {
+    [SLFHUD hideHud];
+    [task cancel];
+    NSLog(@"error---->\n:%@", error);
+    //    NSLog(@"errorCode---->:\n%ld", (long)error.code);
+    //    NSLog(@"Error: %@", [error debugDescription]);
+    //    NSLog(@"Error: %@", [error localizedDescription]);
+    return error;
+}
 
 + (void)GET:(NSString *)URLString
  parameters:(id)parameters success:(void (^)(SLFResponseModel * response))success failure:(void (^)(NSError * error))failure {
     NSLog(@"URLString->%@\n<--------------------------------------->\nparameters->%@\n", URLString, parameters);
-    for (NSString * temp in [[RequestPost shareTools].allTaskRequset allKeys]) {
-        if ([URLString isEqualToString:temp]) {
-            return;
-        }
-    }
+    
     [SLFHUD showLoading];
-    NSURLSessionDataTask * nowTask = [[RequestPost mySessionMageager] GET:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [[RequestPost mySessionMageager] GET:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        success([RequestPost successBlock:responseObject task:task]);
         
-        [SLFHUD hideHud];
-        NSDictionary * data = responseObject;
-        NSError *error;
-        SLFResponseModel *response = [[SLFResponseModel alloc] initWithDictionary:data error:&error];
-        
-        if (error == nil) {
-            if (success) {
-                success(response);
-            }
-        }else {
-            [task cancel];
-        }
-        for (NSURLSessionDataTask * tempTask in [[RequestPost shareTools].allTaskRequset allValues]) {
-            if (tempTask == task) {
-                [[RequestPost shareTools].allTaskRequset removeObjectForKey:URLString];
-            }
-        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [SLFHUD hideHud];
-        NSLog(@"error---->\n:%@", error);
-        NSLog(@"errorCode---->:\n%ld", (long)error.code);
-        NSLog(@"Error: %@", [error debugDescription]);
-        NSLog(@"Error: %@", [error localizedDescription]);
-        if([error.localizedDescription isEqualToString:@"Request failed: unauthorized (401)"]) {
-            failure(error);
-        }else if ([error.localizedDescription isEqualToString:@"似乎已断开与互联网的连接。"]) {
-            [SLFHUD showHint:@"未连接网络"];
-            failure(error);
-        }else if ([error.localizedDescription isEqualToString:@"请求超时。"]) {
-            [SLFHUD showHint:@"请求超时"];
-            failure(error);
-        }else if ([error.localizedDescription isEqualToString:@"未能连接到服务器。"]) {
-            [SLFHUD showHint:@"未能连接到服务器"];
-            failure(error);
-        }else {
-            [SLFHUD showHint:[NSString stringWithFormat:@"错误信息:%@", [error localizedDescription]]];
-            failure(error);
-        }
-        
-        [task cancel];
-        for (NSURLSessionDataTask * tempTask in [[RequestPost shareTools].allTaskRequset allValues]) {
-            if (tempTask == task) {
-                [[RequestPost shareTools].allTaskRequset removeObjectForKey:URLString];
-            }
-        }
+        failure([RequestPost failureBlock:error task:task]);
     }];
-    [[RequestPost shareTools].allTaskRequset setObject:nowTask forKey:URLString];
 }
 
 + (void)POST:(NSString *)URLString
   parameters:(id) parameters success:(void (^)(SLFResponseModel * response))success failure:(void (^)(NSError * error))failure {
     NSLog(@"URLString->%@\n<--------------------------------------->\nparameters->%@\n", URLString, parameters);
-    for (NSDictionary * temp in [[RequestPost shareTools].allTaskRequset allValues]) {
-        if ((NSDictionary *)parameters == temp) {
-            return;
-        }
-    }
+    
     [SLFHUD showLoading];
     [[RequestPost mySessionMageager] POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        success([RequestPost successBlock:responseObject task:task]);
         
-        [SLFHUD hideHud];
-        NSDictionary * data = responseObject;
-        NSError *error;
-        SLFResponseModel *response = [[SLFResponseModel alloc] initWithDictionary:data error:&error];
-        
-        if (error == nil) {
-            if (success) {
-                success(response);
-            }
-        }else {
-            [task cancel];
-        }
-        for (NSDictionary * temp in [[RequestPost shareTools].allTaskRequset allValues]) {
-            if ((NSDictionary *)parameters == temp) {
-                [[RequestPost shareTools].allTaskRequset removeObjectForKey:URLString];
-            }
-        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [SLFHUD hideHud];
-        NSLog(@"error-->:\n%@", error);
-        NSLog(@"errorCode---->:\n%ld", (long)error.code);
-        NSLog(@"Error: %@", [error debugDescription]);
-        NSLog(@"Error: %@", [error localizedDescription]);
-        if([error.localizedDescription isEqualToString:@"Request failed: unauthorized (401)"]) {
-            failure(error);
-        }else if ([error.localizedDescription isEqualToString:@"似乎已断开与互联网的连接。"]) {
-            [SLFHUD showHint:@"未连接网络"];
-            failure(error);
-        }else if ([error.localizedDescription isEqualToString:@"请求超时。"]) {
-            [SLFHUD showHint:@"请求超时"];
-            failure(error);
-        }else if ([error.localizedDescription isEqualToString:@"未能连接到服务器。"]) {
-            [SLFHUD showHint:@"未能连接到服务器"];
-            failure(error);
-        }else {
-            [SLFHUD showHint:[NSString stringWithFormat:@"错误信息:%@", [error localizedDescription]]];
-            failure(error);
-        }
-        
-        [task cancel];
-        for (NSDictionary * temp in [[RequestPost shareTools].allTaskRequset allValues]) {
-            if ((NSDictionary *)parameters == temp) {
-                [[RequestPost shareTools].allTaskRequset removeObjectForKey:URLString];
-            }
-        }
+        failure([RequestPost failureBlock:error task:task]);
     }];
-    if (parameters != nil) {
-        [[RequestPost shareTools].allTaskRequset setObject:(NSDictionary *)parameters forKey:URLString];
-    }
+    
 }
-
+//没有转圈圈
++ (void)noPOST:(NSString *)URLString parameters:(id) parameters success:(void (^)(SLFResponseModel * response))success failure:(void (^)(NSError * error))failure {
+    NSLog(@"URLString->%@\n<--------------------------------------->\nparameters->%@\n", URLString, parameters);
+    
+    [[RequestPost mySessionMageager] POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        success([RequestPost successBlock:responseObject task:task]);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure([RequestPost failureBlock:error task:task]);
+    }];
+    
+}
+//进度
++ (void)noPOST:(NSString *)URLString parameters:(id)parameters progress:(void (^)(NSProgress * _Nonnull))up success:(void (^)(SLFResponseModel * response))success failure:(void (^)(NSError * error))failure {
+    NSLog(@"URLString->%@\n<--------------------------------------->\nparameters->%@\n", URLString, parameters);
+    
+    [[RequestPost mySessionMageager] POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        up(uploadProgress);
+    }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        success([RequestPost successBlock:responseObject task:task]);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure([RequestPost failureBlock:error task:task]);
+    }];
+}
+//上传进度
 + (void)POST:(NSString *)URLString
   parameters:(id) parameters constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block success:(void (^)(SLFResponseModel * response))success failure:(void (^)(NSError * error))failure {
     NSLog(@"URLString->%@\n<--------------------------------------->\nparameters->%@\n", URLString, parameters);
-    for (NSDictionary * temp in [[RequestPost shareTools].allTaskRequset allValues]) {
-        if ((NSDictionary *)parameters == temp) {
-            return;
-        }
-    }
+    
     
     [SLFHUD showLoading];
     [[RequestPost mySessionMageager] POST:URLString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -237,59 +202,13 @@ static RequestPost * rp = nil;
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        success([RequestPost successBlock:responseObject task:task]);
         
-        [SLFHUD hideHud];
-        NSDictionary * data = responseObject;
-        NSError *error;
-        SLFResponseModel *response = [[SLFResponseModel alloc] initWithDictionary:data error:&error];
-        
-        if (error == nil) {
-            if (success) {
-                success(response);
-            }
-        }else {
-            [task cancel];
-        }
-        for (NSDictionary * temp in [[RequestPost shareTools].allTaskRequset allValues]) {
-            if ((NSDictionary *)parameters == temp) {
-                [[RequestPost shareTools].allTaskRequset removeObjectForKey:URLString];
-            }
-        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [SLFHUD hideHud];
-        NSLog(@"error-->:\n%@", error);
-        NSLog(@"errorCode---->:\n%ld", (long)error.code);
-        NSLog(@"Error: %@", [error debugDescription]);
-        NSLog(@"Error: %@", [error localizedDescription]);
-        if([error.localizedDescription isEqualToString:@"Request failed: unauthorized (401)"]) {
-            failure(error);
-        }else if ([error.localizedDescription isEqualToString:@"似乎已断开与互联网的连接。"]) {
-            [SLFHUD showHint:@"未连接网络"];
-            failure(error);
-        }else if ([error.localizedDescription isEqualToString:@"请求超时。"]) {
-            [SLFHUD showHint:@"请求超时"];
-            failure(error);
-        }else if ([error.localizedDescription isEqualToString:@"未能连接到服务器。"]) {
-            [SLFHUD showHint:@"未能连接到服务器"];
-            failure(error);
-        }else {
-            [SLFHUD showHint:[NSString stringWithFormat:@"错误信息:%@", [error localizedDescription]]];
-            failure(error);
-        }
-        
-        [task cancel];
-        for (NSDictionary * temp in [[RequestPost shareTools].allTaskRequset allValues]) {
-            if ((NSDictionary *)parameters == temp) {
-                [[RequestPost shareTools].allTaskRequset removeObjectForKey:URLString];
-            }
-        }
+        failure([RequestPost failureBlock:error task:task]);
     }];
-    if (parameters != nil) {
-        [[RequestPost shareTools].allTaskRequset setObject:(NSDictionary *)parameters forKey:URLString];
-    }
+    
 }
-
 #pragma mark - 网络连接
 +(void)checkNetwork:(void(^)(BOOL isGo))networkStatus {
     
