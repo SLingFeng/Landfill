@@ -41,13 +41,13 @@
             [UIView animateWithDuration:kAnimateTime animations:^{
 //                fromView.transform = CGAffineTransformMakeScale(0.5, 0.5);
 //                toView.transform = CGAffineTransformMakeScale(0.5, 0.5);
-                fromView.frame = CGRectMake(0, kScreenH, kScreenW, kScreenH);
-                toView.frame = CGRectMake(0, kScreenH, kScreenW, kScreenH);
+                fromView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+                toView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
             } completion:^(BOOL finished) {
                 [containerView addSubview:toView];
                 // 这个方法大概就是完成过渡动画，更新内部视图，控制器状态的转变！
                 [UIView animateWithDuration:kAnimateTime animations:^{
-                    toView.frame = CGRectMake(0, 0, kScreenW, kScreenH);
+                    toView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
 //                    toView.transform = CGAffineTransformMakeScale(1, 1);
                 } completion:^(BOOL finished) {
                     // 完成过度动画
@@ -63,7 +63,7 @@
             // Pop 动画
             [UIView animateWithDuration:kAnimateTime animations:^{
                 // 让当前的二级页面  从下方消失
-                fromView.frame = CGRectMake(0, kScreenH, kScreenW, kScreenH);
+                fromView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
 //                fromView.transform = CGAffineTransformMakeScale(0.5, 0.5);
             } completion:^(BOOL finished) {
                 
@@ -72,7 +72,7 @@
                 [UIView animateWithDuration:kAnimateTime animations:^{
                     // 让首级页面  由小变大
 //                    toView.transform = CGAffineTransformMakeScale(1, 1);
-                    toView.frame = CGRectMake(0, 0, kScreenW, kScreenH);
+                    toView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
                     
                 } completion:^(BOOL finished) {
                     
@@ -88,13 +88,13 @@
         case AnimatedScenePresent:
         {
             
-            toView.frame = CGRectMake(kScreenW / 2.0 , kScreenH / 2.0, 0, 0);
+            toView.frame = CGRectMake([UIScreen mainScreen].bounds.size.width / 2.0 , [UIScreen mainScreen].bounds.size.height / 2.0, 0, 0);
             
             [containerView addSubview:toView];
             
             [UIView animateWithDuration:kAnimateTime animations:^{
                 
-                toView.frame = CGRectMake(0 , 0, kScreenW, kScreenH);
+                toView.frame = CGRectMake(0 , 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
                 
             } completion:^(BOOL finished) {
                 
@@ -111,7 +111,7 @@
             
             [UIView animateWithDuration:kAnimateTime animations:^{
                 // 让当前的二级页面  从上方消失
-                fromView.frame = CGRectMake(0, -kScreenH, kScreenW, kScreenH);
+                fromView.frame = CGRectMake(0, -[UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
                 
             } completion:^(BOOL finished) {
                 
