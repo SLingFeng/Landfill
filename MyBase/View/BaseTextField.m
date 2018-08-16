@@ -218,6 +218,18 @@
     
 }
 
+- (CGRect)leftViewRectForBounds:(CGRect)bounds
+{
+    CGRect iconRect = [super leftViewRectForBounds:bounds];
+    iconRect.origin.x += self.leftViewX; //像右边偏15
+    return iconRect;
+}
+//
+//作者：Originalee
+//链接：https://www.jianshu.com/p/f93b005dc9d4
+//來源：简书
+//简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
+
 - (void)enterSpace:(CGFloat)left {
     self.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, left, 0)];
     //设置显示模式为永远显示(默认不显示)

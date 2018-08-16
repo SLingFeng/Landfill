@@ -181,6 +181,9 @@
 // 判断iPhone6P
 #define ISiPhone6Plus  CGSizeEqualToSize([[UIScreen mainScreen] preferredMode].size, CGSizeMake(1242, 2208))
 
+// 判断iPhone X
+#define IS_IPHONEX (([[UIScreen mainScreen] bounds].size.height == 812) ? YES : NO)
+
 // 判断iPad
 #define     ISIPAD          (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 

@@ -13,7 +13,7 @@
     UIImageView * _selectView;
     UIButton * _lastBtn;
     UIView * _view;
-
+    NSMutableArray *_btnArr;
 }
 @end
 
@@ -27,7 +27,7 @@
 }
 
 -(void)createToTitle:(NSString *)titleText placeholder:(NSString *)placeholderText image:(NSString *)image custom:(UIView *)custom {
-    self.layer.cornerRadius = 5.f;
+    self.layer.cornerRadius = 7.5f;
     self.layer.masksToBounds = 1;
     self.backgroundColor = [UIColor whiteColor];
     
@@ -52,7 +52,7 @@
     [self addSubview:tf];
     self.TextField = tf;
     _TextField.placeholder = placeholderText;
-    _TextField.font = [SLFCommonTools pxFont:28];
+    _TextField.font = [SLFCommonTools pxFont:32];
 
     _TextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     
@@ -83,17 +83,18 @@
     }
     if (custom != nil) {
         [self addSubview:custom];
+        CGFloat cw = custom.size.width;
         [custom mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(weakSelf);
             make.right.equalTo(weakSelf.mas_right).offset(-15);
-            make.width.mas_equalTo(87.5);
+            make.width.mas_equalTo(cw);
             make.height.mas_equalTo(25);
         }];
         
         [_TextField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(weakSelf);
             if (title != nil) {
-                make.left.equalTo(title.mas_right).with.offset(20);
+                make.left.equalTo(title.mas_right).with.offset(5);
             }else {
                 make.left.equalTo(imageView.mas_right).with.offset(5);
             }
@@ -280,13 +281,17 @@
 -(instancetype)initWithSelectBtnArr:(NSArray *)titles{
     if (self = [super init]) {
         kWeakSelf(weakSelf);
+        CGFloat w = kScreenW / titles.count;
         //        [CommonTools line:self y:40 space:0 color:kLineColor lineW:0.5];
-        [SLFCommonTools line:self y:40 leftSpace:0 rightSpace:kScreenW-45 color:kLineColor lineW:0.5];
+//        [SLFCommonTools line:self y:40 leftSpace:0 rightSpace:kScreenW-45 color:kLineColor lineW:0.5];
         UIImageView * select = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"登录选择状态"]];
         [self addSubview:select];
+        select.backgroundColor = HEXCOLOR(0xFB2A27);
         _selectView = select;
         
-        for (int i=0; i<2;i++) {
+        _btnArr = [NSMutableArray arrayWithCapacity:titles.count];
+        UIView *l;
+        for (int i=0; i<titles.count;i++) {
             UIButton * btn = [[UIButton alloc] init];
             btn.tag = i+10;
             [self addSubview:btn];
@@ -300,23 +305,24 @@
             btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 15);
             
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.width.equalTo(@(CGRectGetWidth(weakSelf.frame)/2));
+                make.width.mas_equalTo(w);
                 //.with.offset(CGRectGetWidth(weakSelf.frame)/2*i);
                 if (i == 0) {
                     make.left.equalTo(weakSelf).with.offset(0);
-                    make.right.equalTo(weakSelf.mas_centerX);
+//                    make.right.equalTo(weakSelf.mas_centerX);
                 }else {
-                    make.left.equalTo(weakSelf.mas_centerX);
-                    make.right.equalTo(@(CGRectGetWidth(weakSelf.frame)));
+                    make.left.equalTo(l.mas_right);
+//                    make.right.equalTo(@(CGRectGetWidth(weakSelf.frame)));
                 }
-                make.top.equalTo(weakSelf).with.offset(15);
-                make.bottom.offset(-10);
+                make.top.bottom.offset(0);
             }];
             if (i == 0) {
                 btn.selected = 1;
                 _lastBtn = btn;
                 select.sd_layout.bottomSpaceToView(self, 3).widthIs(100).heightIs(7.5).centerXEqualToView(btn);
             }
+            l = btn;
+            [_btnArr addObject:btn];
         }
         
     }
@@ -329,12 +335,17 @@
 //    if (_lastBtn == btn) {
 //        return;
 //    }
+    
+    for (UIButton *b in _btnArr) {
+        b.selected = NO;
+    }
     _lastBtn = btn;
     if (self.selectBtnClick) {
         self.selectBtnClick(btn.tag-10);
     }
     _selectView.centerX = btn.centerX;
     btn.selected = YES;
+    
     if (btn.tag == 10) {
         //个人
         UIButton * tempBtn = [self viewWithTag:11];

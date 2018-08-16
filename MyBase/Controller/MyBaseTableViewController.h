@@ -14,6 +14,8 @@
 -(void)neededTableViewStyle:(UITableViewStyle)style;
 -(void)neededSearch;
 
+- (void)registerCell:(Class)cl;
+- (void)registerCell:(Class)cl identifier:(NSString *)identifier;
 
 /**
  对应cell存放字符串 key是section和row组成

@@ -32,7 +32,7 @@
     _tableView.delegate = self;
     _tableView.showsVerticalScrollIndicator = NO;
     _tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.1)];
-    _tableView.backgroundColor = [SLFCommonTools getBackgroundColor];
+//    _tableView.backgroundColor = [SLFCommonTools getBackgroundColor];
     _tableView.tState = MyTableViewStateNormal;
 
     if (@available(iOS 11.0, *)) {
@@ -99,6 +99,14 @@
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [self.view endEditing:1];
+}
+
+- (void)registerCell:(Class)cl {
+    [self.tableView registerClass:cl forCellReuseIdentifier:NSStringFromClass(cl)];
+}
+
+- (void)registerCell:(Class)cl identifier:(NSString *)identifier {
+    [self.tableView registerClass:cl forCellReuseIdentifier:identifier];
 }
 
 #pragma mark - search 

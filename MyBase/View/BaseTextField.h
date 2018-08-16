@@ -27,7 +27,8 @@ typedef enum : NSUInteger {
 @property (assign, nonatomic) BaseTextFieldEnterType enterType;
 
 @property (retain, nonatomic) UITextField * returnNext;
-
+///设置leftview x轴距
+@property (assign, nonatomic) NSInteger leftViewX;
 /**
  输入改变时
  */

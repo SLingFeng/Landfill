@@ -17,6 +17,7 @@ typedef enum : NSUInteger {
     SeleCtTypeName,//名字
     SeleCtTypeCountDownTimer,//时分
     SeleCtTypeCustomize,//自定义数据单列
+    SeleCtTypeCustomizeLabel,//自定义数据单列 自定义label
 } SeleCtType;
 
 typedef void (^selectIndexBlock)(NSString*text, NSInteger index);
@@ -36,7 +37,7 @@ typedef void (^selectIndexBlock)(NSString*text, NSInteger index);
 
 /**
  自定义数据单列
-
+ 
  @param dataArr 数据数组
  @param block 回掉文字，选择第几个
  @return self

@@ -14,13 +14,19 @@
 
 #define k333333 [SLFCommonTools colorHex:@"333333"]
 
+#define k555555 [SLFCommonTools colorHex:@"555555"]
+
 #define k666666 [SLFCommonTools colorHex:@"666666"]
+
+#define k888888 [SLFCommonTools colorHex:@"888888"]
 
 #define k999999 [SLFCommonTools colorHex:@"999999"]
 
 #define kFFFFFF [SLFCommonTools colorHex:@"ffffff"]
 
 #define k111111 [SLFCommonTools colorHex:@"111111"]
+
+#define k000000 [SLFCommonTools colorHex:@"000000"]
 
 #define kFF0000 [SLFCommonTools colorHex:@"ff0000"]
 
@@ -30,10 +36,16 @@
 
 #define kLineColor [SLFCommonTools colorHex:@"F2F2F2"]
 
-//
-//#define k66 [SLFCommonTools colorHex:@"333333"]
-//
-//#define k66 [SLFCommonTools colorHex:@"333333"]
+#define kA1A1A1 [SLFCommonTools colorHex:@"A1A1A1"]
+
+#define kMainColor [SLFCommonTools colorHex:@"00AAF7"]
+
+#define kEEEEEE [SLFCommonTools colorHex:@"eeeeee"]
+
+#define kEFEFEF [SLFCommonTools colorHex:@"EFEFEF"]
+
+#define kFF4848 [SLFCommonTools colorHex:@"FF4848"]
+
 
 
 #endif /* ColorHeader_pch */

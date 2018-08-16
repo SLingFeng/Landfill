@@ -127,6 +127,18 @@ static RequestPost * rp = nil;
     return nil;
 }
 
++ (BOOL)check:(NSDictionary *)request {
+    if ([request[@"code"] integerValue] == 969) {
+        [SLFAlert showSystemAlertWithTitle:request[@"msg"] text:@"请重新登录" determineTitle:@"去登录" alertClick:^(BOOL rightClick) {
+            [SLFCommonTools exit];
+            [[GVUserDefaults standardUserDefaults] removeUserInfo];
+        }];
+        return 0;
+    }else {
+        return 1;
+    }
+}
+
 + (NSError *)failureBlock:(NSError *)error task:(NSURLSessionDataTask *)task {
     [SLFHUD hideHud];
     [task cancel];

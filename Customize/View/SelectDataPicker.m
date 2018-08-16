@@ -19,7 +19,7 @@ typedef enum : NSUInteger {
 @interface SelectDataPicker ()<UIPickerViewDelegate, UIPickerViewDataSource>
 {
     UIDatePicker * _datePicker;
-//    DVYearMonthDatePicker * _dvDatePicker;
+    //    DVYearMonthDatePicker * _dvDatePicker;
     SelectStatus _ss;
     UILabel * _label;
     UIPickerView * _pickerView;
@@ -91,23 +91,23 @@ typedef enum : NSUInteger {
     [[UIApplication sharedApplication].keyWindow addSubview:self];
     self.backgroundColor = RGBACOLOR(0, 0, 0, 0.5);
     [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelTap)]];
-
+    
     UIView * back = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenH+_selectHeight, kScreenW, _selectHeight)];
     _backgroundView = back;
     _backgroundView.backgroundColor = [UIColor whiteColor];
-    _backgroundView.layer.cornerRadius = 5.f;
-    _backgroundView.layer.masksToBounds = YES;
+    //    _backgroundView.layer.cornerRadius = 5.f;
+    //    _backgroundView.layer.masksToBounds = YES;
     [self addSubview:_backgroundView];
     _backgroundView.alpha = 0;
     
     [self setSelectPicker:_type];
-//    [_backgroundView addSubview:[CommonTools lineViewToY:50 leftSpace:10 rightSpace:(kScreenW-24)-20 color:kLineColor lineW:0.5]];
-
+    //    [_backgroundView addSubview:[CommonTools lineViewToY:50 leftSpace:10 rightSpace:(kScreenW-24)-20 color:kLineColor lineW:0.5]];
+    
     UIButton * cancelBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [cancelBtn setTitle:@"取消" forState:(UIControlStateNormal)];
     [cancelBtn addTarget:self action:@selector(cancelTap) forControlEvents:(UIControlEventTouchUpInside)];
-    [cancelBtn setTitleColor:[SLFCommonTools getNavBarColor] forState:(UIControlStateNormal)];
-    cancelBtn.titleLabel.font = [SLFCommonTools pxFont:28];
+    [cancelBtn setTitleColor:k888888 forState:(UIControlStateNormal)];
+    cancelBtn.titleLabel.font = [SLFCommonTools pxFont:30];
     [_backgroundView addSubview:cancelBtn];
     
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -116,11 +116,11 @@ typedef enum : NSUInteger {
         make.size.mas_equalTo(CGSizeMake(70, 50));
     }];
     
-    UIButton * doneBtn = [UIButton buttonWithType:(UIButtonTypeSystem)];
-    [doneBtn setTitle:@"确定" forState:(UIControlStateNormal)];
+    UIButton * doneBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [doneBtn setTitle:@"完成" forState:(UIControlStateNormal)];
     [doneBtn addTarget:self action:@selector(nextBtnClick:) forControlEvents:(UIControlEventTouchUpInside)];
     [doneBtn setTitleColor:[SLFCommonTools getNavBarColor] forState:(UIControlStateNormal)];
-    doneBtn.titleLabel.font = [SLFCommonTools pxFont:28];
+    doneBtn.titleLabel.font = [SLFCommonTools pxFont:30];
     [_backgroundView addSubview:doneBtn];
     [doneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_backgroundView).with.offset(0);
@@ -145,7 +145,7 @@ typedef enum : NSUInteger {
         {
             UIDatePicker * datePicker = [[UIDatePicker alloc] init];
             [_backgroundView addSubview:datePicker];
-            datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+            datePicker.datePickerMode = UIDatePickerModeDate;
             [datePicker setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_CN"]];
             [datePicker mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.bottom.equalTo(_backgroundView).with.offset(0);
@@ -156,17 +156,17 @@ typedef enum : NSUInteger {
             break;
         case SeleCtTypeYearMonth:
         {
-//            DVYearMonthDatePicker *datePicker = [[DVYearMonthDatePicker alloc] init];
-//            datePicker.dvDelegate = self;
-//            [datePicker selectToday];
-//            [_backgroundView addSubview:datePicker];
-//            [datePicker mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.bottom.equalTo(_backgroundView).with.offset(0);
-//                //                make.left.and.right.equalTo(_backgroundView).with.offset(0);
-//                make.left.offset(20);
-//                make.right.offset(-20);
-//            }];
-//            _dvDatePicker = datePicker;
+            //            DVYearMonthDatePicker *datePicker = [[DVYearMonthDatePicker alloc] init];
+            //            datePicker.dvDelegate = self;
+            //            [datePicker selectToday];
+            //            [_backgroundView addSubview:datePicker];
+            //            [datePicker mas_makeConstraints:^(MASConstraintMaker *make) {
+            //                make.bottom.equalTo(_backgroundView).with.offset(0);
+            //                //                make.left.and.right.equalTo(_backgroundView).with.offset(0);
+            //                make.left.offset(20);
+            //                make.right.offset(-20);
+            //            }];
+            //            _dvDatePicker = datePicker;
         }
             break;
         case SeleCtTypePercentage:
@@ -200,10 +200,10 @@ typedef enum : NSUInteger {
             break;
         case SeleCtTypeName: {
             [self dp];
-//            _numArr = [NSMutableArray arrayWithCapacity:100];
-//            for (int i=1; i<100; i++) {
-//                [_numArr addObject:[NSString stringWithFormat:@"%d%%", i]];
-//            }
+            //            _numArr = [NSMutableArray arrayWithCapacity:100];
+            //            for (int i=1; i<100; i++) {
+            //                [_numArr addObject:[NSString stringWithFormat:@"%d%%", i]];
+            //            }
         }
             break;
         case SeleCtTypeTime: {
@@ -232,7 +232,8 @@ typedef enum : NSUInteger {
             
         }
             break;
-        case SeleCtTypeCustomize: {
+        case SeleCtTypeCustomize:
+        case SeleCtTypeCustomizeLabel: {
             [self dp];
         }
             break;
@@ -247,11 +248,11 @@ typedef enum : NSUInteger {
     [_backgroundView addSubview:pv];
     pv.delegate = self;
     pv.dataSource = self;
-//    for (UIView *separatorLine in pv.subviews) {
-//        if (separatorLine.frame.size.height < 1) {
-//            separatorLine.backgroundColor = [CommonTools colorHex:kLineColor];
-//        }
-//    }
+    //    for (UIView *separatorLine in pv.subviews) {
+    //        if (separatorLine.frame.size.height < 1) {
+    //            separatorLine.backgroundColor = [CommonTools colorHex:kLineColor];
+    //        }
+    //    }
     _pickerView = pv;
     [pv mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(_backgroundView).with.offset(0);
@@ -287,7 +288,7 @@ typedef enum : NSUInteger {
     switch (_type) {
         case SeleCtTypeYearMonthDay:{
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm"];
+            [dateFormatter setDateFormat:@"YYYY-MM-dd"];
             _timeDate = [[NSMutableString alloc] initWithString:[dateFormatter stringFromDate:_datePicker.date]];
             if (self.backTimeDate) {
                 self.backTimeDate(_timeDate, _datePicker.date, _index);
@@ -297,13 +298,13 @@ typedef enum : NSUInteger {
         }
             break;
         case SeleCtTypeYearMonth:{
-//            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//            [dateFormatter setDateFormat:@"YYYY-MM"];
-//            _timeDate = [[NSMutableString alloc] initWithString:[dateFormatter stringFromDate:_dvDatePicker.date]];
-//            if (self.backTimeDate) {
-//                self.backTimeDate(_timeDate, _dvDatePicker.date, _index);
-//                [self cancelTap];
-//            }
+            //            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            //            [dateFormatter setDateFormat:@"YYYY-MM"];
+            //            _timeDate = [[NSMutableString alloc] initWithString:[dateFormatter stringFromDate:_dvDatePicker.date]];
+            //            if (self.backTimeDate) {
+            //                self.backTimeDate(_timeDate, _dvDatePicker.date, _index);
+            //                [self cancelTap];
+            //            }
         }
             break;
         case SeleCtTypePercentage:{
@@ -350,7 +351,8 @@ typedef enum : NSUInteger {
             }
         }
             break;
-        case SeleCtTypeCustomize: {
+        case SeleCtTypeCustomize:
+        case SeleCtTypeCustomizeLabel: {
             if (self.selectIndexBlock) {
                 self.selectIndexBlock(_selectPercentage, _index);
                 [self cancelTap];
@@ -371,8 +373,8 @@ typedef enum : NSUInteger {
 -(void)setNameDataArr:(NSMutableArray *)NameDataArr {
     if (_NameDataArr != NameDataArr) {
         _NameDataArr = NameDataArr;
-        if (NameDataArr.count != 0 || NameDataArr != nil) {
-            _selectPercentage = _NameDataArr[0];
+        if (NameDataArr.count != 0 && NameDataArr != nil) {
+            _selectPercentage = NameDataArr[0];
             [_pickerView reloadAllComponents];
         }
     }
@@ -384,17 +386,20 @@ typedef enum : NSUInteger {
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     if (_type == SeleCtTypeName) {
-
+        
         return _NameDataArr.count;
     }
     if (_type == SeleCtTypeCustomize) {
         return _NameDataArr.count;
     }
+    if (_type == SeleCtTypeCustomizeLabel) {
+        return _NameDataArr.count;
+    }
+    
     return 0;
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
     if (_type == SeleCtTypeCustomize) {
         return _NameDataArr[row];
     }
@@ -417,6 +422,27 @@ typedef enum : NSUInteger {
         _selectPercentage = _numArr[row];
     }
 }
+
+-(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
+    
+    if (_type == SeleCtTypeCustomizeLabel) {
+        UILabel *myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 300, 35)];
+        myView.font = [UIFont systemFontOfSize:18];
+        myView.backgroundColor = [UIColor clearColor];
+        myView.textAlignment = NSTextAlignmentLeft;
+        myView.text = _NameDataArr[row];
+        return myView;
+    }else {
+        UILabel *myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, kScreenW, 35)];
+        myView.backgroundColor = [UIColor clearColor];
+        myView.textAlignment = NSTextAlignmentCenter;
+        myView.text = _NameDataArr[row];
+        return myView;
+        
+    }
+    return view;
+}
+
 
 //dv
 //- (void)yearMonthDatePicker:(DVYearMonthDatePicker *)yearMonthDatePicker didSelectedDate:(NSDate *)date {

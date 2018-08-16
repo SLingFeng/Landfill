@@ -40,13 +40,7 @@ typedef void(^LoginCompleteBlock)(void);
 @end
 
 @interface UIViewController (MyBase)
-/**
- 顶级导航条
- 
- @return 导航条
- */
-- (UINavigationController *)topNavigationController;
 
--(void)setNavigationTitle:(NSString *)title;
+-(void)pushViewController:(UIViewController *)vc;
 
 @end

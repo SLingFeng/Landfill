@@ -5,6 +5,7 @@
 //
 
 #import "MyBaseViewController.h"
+//#import "UIViewController+Cloudox.h"
 
 @interface MyBaseViewController ()
 
@@ -14,31 +15,22 @@
 
 - (void)hiddeNaviBar:(BOOL)isHidde {
     if (isHidde) {
-        [self setNavBarBgAlpha:@"0.0"];
-//        [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] viewImageFromColor:[UIColor clearColor] rect:CGRectMake(0, 0, kScreenW, 20+64)] forBarMetrics:UIBarMetricsDefault];
-//        [self.navigationController.navigationBar setTintColor:[SLFCommonTools getNavBarColor]];
-//        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [SLFCommonTools getNavBarColor]}];
-//        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+//        [self setNavBarBgAlpha:@"0.0"];
     }else {
-        [self setNavBarBgAlpha:@"1.0"];
-//        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top_bg"] forBarMetrics:UIBarMetricsDefault];
-//        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-//        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
-//        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+//        [self setNavBarBgAlpha:@"1.0"];
     }
 }
 
--(void)loadView {
-    [super loadView];
-    self.view.backgroundColor = [UIColor whiteColor];
-}
+//-(void)loadView {
+//    [super loadView];
+//    self.view.backgroundColor = [UIColor whiteColor];
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-//        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-//    }
-    
+
+    self.view.backgroundColor = [UIColor whiteColor];
+
     self.pageIndex = 1;
     
     [SLFCommonTools setupSatuts:self bai:0];
@@ -51,9 +43,9 @@
         
         NSString *backStr;
         if (isClaer) {
-            backStr = @"返回";
+            backStr = @"back_icon";
         }else {
-            backStr = @"返回";
+            backStr = @"white_back_icon";
         }
         
         UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:@selector(backClick)];
@@ -73,8 +65,11 @@
 
 -(void)pushViewController:(UIViewController *)vc {
     @autoreleasepool {
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:1];
+//        vc.hidesBottomBarWhenPushed = YES;
+        if (self.navigationController.viewControllers.count > 0) {
+            vc.hidesBottomBarWhenPushed = YES;
+        }
+        [self.navigationController cyl_pushViewController:vc animated:1];
     }
 }
 
@@ -110,5 +105,16 @@
 @end
 
 @implementation UIViewController (MyBase)
+
+
+-(void)pushViewController:(UIViewController *)vc {
+    @autoreleasepool {
+        //        vc.hidesBottomBarWhenPushed = YES;
+        if (self.navigationController.viewControllers.count > 0) {
+            vc.hidesBottomBarWhenPushed = YES;
+        }
+        [self.navigationController cyl_pushViewController:vc animated:1];
+    }
+}
 
 @end
