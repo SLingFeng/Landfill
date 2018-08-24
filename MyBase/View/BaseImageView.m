@@ -27,7 +27,9 @@
 }
 
 - (void)ovImage {
+#ifdef DEBUG
     self.backgroundColor = kColorRandomly;
+#endif
     _duration = 0.3f;
     _Layer = self.layer;
 }

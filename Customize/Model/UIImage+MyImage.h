@@ -10,4 +10,5 @@
 - (UIImage*)getSubImage:(CGRect)rect;
 - (UIImage*)scaleToSize:(CGSize)size;
 - (UIImage *)viewImageFromColor:(UIColor *)color rect:(CGRect)rect;
++(UIImage*) createImageWithColor:(UIColor*) color;
 @end

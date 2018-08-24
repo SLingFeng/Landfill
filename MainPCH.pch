@@ -187,6 +187,10 @@
 // 判断iPad
 #define     ISIPAD          (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
+
+#define iPhone_Top (IS_IPHONEX ? 44.0f : 20.0f)
+#define iPhone_Bottom (IS_IPHONEX ? 34.0f : 0.0f)
+
 ///宽度适配 都根据ip6的像素
 #define kIP6_FitScreenWidth (width-10)*(kScreenW/320)
 ///按高度适配 根据ip6的像素
