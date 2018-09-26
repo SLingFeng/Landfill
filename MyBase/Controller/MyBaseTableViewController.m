@@ -30,14 +30,14 @@
     [self.view addSubview:_tableView];
     _tableView.dataSource = self;
     _tableView.delegate = self;
-    _tableView.showsVerticalScrollIndicator = NO;
+//    _tableView.showsVerticalScrollIndicator = NO;
     _tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.1)];
-//    _tableView.backgroundColor = [SLFCommonTools getBackgroundColor];
+    self.tableView.backgroundColor = kEEEEEE;
     _tableView.tState = MyTableViewStateNormal;
 
     if (@available(iOS 11.0, *)) {
-        self.tableView.estimatedSectionHeaderHeight = 0;
-        self.tableView.estimatedSectionFooterHeight = 0;
+        self.tableView.estimatedSectionHeaderHeight = 0.01;
+        self.tableView.estimatedSectionFooterHeight = 0.01;
     }
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -83,14 +83,14 @@
 }
 */
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return 0;
-    }
-    return 0;
+//    if (section == 0) {
+//        return 0.1;
+//    }
+    return 0.01;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0;
+    return 0.01;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

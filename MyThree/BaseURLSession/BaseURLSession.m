@@ -330,7 +330,7 @@ static BaseURLSession * bus = nil;
     //    [request setHTTPBody:myRequestData];
     //http method
     [request setHTTPMethod:@"POST"];
-    
+     
     //    AFHTTPSessionManager * session = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://www.baidu.com"] sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     //    session.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
     //    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"application/x-www-form-urlencoded", @"text/html", @"text/json", @"text/javascript", @"text/plain", @"multipart/form-data", nil];
