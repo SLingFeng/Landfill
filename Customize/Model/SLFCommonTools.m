@@ -9,6 +9,10 @@
 #import <sys/utsname.h>
 
 
+//#import "LA_HomeViewController.h"
+//#import "LA_ActivityViewController.h"
+//#import "LA_MineViewController.h"
+
 static SLFCommonTools * tools = nil;
 @implementation SLFCommonTools
 
@@ -33,35 +37,35 @@ static SLFCommonTools * tools = nil;
 #pragma mark - tabbar
 
 +(void)setupTabbarViewControllers:(UIWindow *)window {
-    [UIView transitionWithView:[UIApplication sharedApplication].keyWindow duration:0.5f options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
-        BOOL oldState = [UIView areAnimationsEnabled];
-        [UIView setAnimationsEnabled:NO];
-        [UIApplication sharedApplication].keyWindow.rootViewController = [[YL_MainNavgationController alloc] initWithRootViewController:[[FY_HomeViewController alloc] init]];
-        [UIView setAnimationsEnabled:oldState];
-    } completion:^(BOOL finished) {
-    }];
-//    YL_HomeLiveListViewController * home = [[YL_HomeLiveListViewController alloc] init];
+//    [UIView transitionWithView:[UIApplication sharedApplication].keyWindow duration:0.5f options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+//        BOOL oldState = [UIView areAnimationsEnabled];
+//        [UIView setAnimationsEnabled:NO];
+//        [UIApplication sharedApplication].keyWindow.rootViewController = [[YL_MainNavgationController alloc] initWithRootViewController:[[FY_HomeViewController alloc] init]];
+//        [UIView setAnimationsEnabled:oldState];
+//    } completion:^(BOOL finished) {
+//    }];
+//    LA_HomeViewController * home = [[LA_HomeViewController alloc] init];
 //    UINavigationController * homeNav = [[UINavigationController alloc] initWithRootViewController:home];
 //
-//    YL_AttentionLiveViewController * per = [[YL_AttentionLiveViewController alloc] init];
+//    LA_ActivityViewController * per = [[LA_ActivityViewController alloc] init];
 //    UINavigationController * perNav = [[UINavigationController alloc] initWithRootViewController:per];
 //
 ////    MineViewController * cel = [[MineViewController alloc] init];
 ////    UINavigationController * celNav = [[UINavigationController alloc] initWithRootViewController:cel];
 ////
-//    MineViewController * mine = [[MineViewController alloc] init];
+//    LA_MineViewController * mine = [[LA_MineViewController alloc] init];
 //    UINavigationController * mineNav = [[UINavigationController alloc] initWithRootViewController:mine];
 //
-//    YL_MainTabBarViewController * tabbarController = [[YL_MainTabBarViewController alloc] init];
+//    CYLTabBarController * tabbarController = [[CYLTabBarController alloc] init];
 //
 //    NSDictionary * homeDic = @{CYLTabBarItemTitle : @"首页",
-//                               CYLTabBarItemImage : @"home",
-//                               CYLTabBarItemSelectedImage : @"home.",
+//                               CYLTabBarItemImage : @"home_unclicked_icon",
+//                               CYLTabBarItemSelectedImage : @"home_clicked_icon",
 //                               };
 //
-//    NSDictionary * pvcDic = @{CYLTabBarItemTitle : @"关注",
-//                              CYLTabBarItemImage : @"eye",
-//                              CYLTabBarItemSelectedImage : @"eye.",
+//    NSDictionary * pvcDic = @{CYLTabBarItemTitle : @"活动",
+//                              CYLTabBarItemImage : @"gift_unclicked_icon",
+//                              CYLTabBarItemSelectedImage : @"gift_clicked_icon",
 //                              };
 //
 ////    NSDictionary * infoDic = @{CYLTabBarItemTitle : @"消息",
@@ -70,8 +74,8 @@ static SLFCommonTools * tools = nil;
 ////                               };
 //
 //    NSDictionary * mineDic = @{CYLTabBarItemTitle : @"我的",
-//                               CYLTabBarItemImage : @"my",
-//                               CYLTabBarItemSelectedImage : @"my.",
+//                               CYLTabBarItemImage : @"mine_unclicked_icon",
+//                               CYLTabBarItemSelectedImage : @"mine_clicked_icon",
 //                               };
 //
 //    NSArray * tabbarItems = @[homeDic,
@@ -95,17 +99,17 @@ static SLFCommonTools * tools = nil;
 //    }else {
 //        window.rootViewController = tabbarController;
 //    }
-    
+//    
 }
 
 + (void)exit {
-    [UIView transitionWithView:[UIApplication sharedApplication].keyWindow duration:1.0f options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
-        BOOL oldState = [UIView areAnimationsEnabled];
-        [UIView setAnimationsEnabled:NO];
-        [UIApplication sharedApplication].keyWindow.rootViewController = [[YL_MainNavgationController alloc] initWithRootViewController:[[FY_LoginViewController alloc] init]];
-        [UIView setAnimationsEnabled:oldState];
-    } completion:^(BOOL finished) {
-    }];
+//    [UIView transitionWithView:[UIApplication sharedApplication].keyWindow duration:1.0f options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
+//        BOOL oldState = [UIView areAnimationsEnabled];
+//        [UIView setAnimationsEnabled:NO];
+//        [UIApplication sharedApplication].keyWindow.rootViewController = [[YL_MainNavgationController alloc] initWithRootViewController:[[FY_LoginViewController alloc] init]];
+//        [UIView setAnimationsEnabled:oldState];
+//    } completion:^(BOOL finished) {
+//    }];
 }
 
 //查找当前vc
@@ -209,14 +213,15 @@ static SLFCommonTools * tools = nil;
 }
 
 +(CGSize)textSize:(NSString *)text font:(UIFont *)font {
-    return [text sizeWithAttributes:@{NSFontAttributeName:font}];
+    NSString * s = [text copy];
+    return [s sizeWithAttributes:@{NSFontAttributeName:font}];
 }
 
 #pragma mark - 行高
 +(CGFloat)textHight:(NSString *)text font:(CGFloat)fontSize width:(CGFloat)width {
     NSStringDrawingOptions option = NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
 //NSStringDrawingTruncatesLastVisibleLine如果文本内容超出指定的矩形限制，文本将被截去并在最后一个字符后加上省略号。 如果指定了NSStringDrawingUsesLineFragmentOrigin选项，则该选项被忽略 NSStringDrawingUsesFontLeading计算行高时使用行间距。（译者注：字体大小+行间距=行高）
-    UIFont * font = [UIFont systemFontOfSize:fontSize];
+    UIFont * font = [SLFCommonTools pxFont:fontSize];
     NSDictionary * dic = @{NSFontAttributeName: font};
     CGSize size = [text boundingRectWithSize :CGSizeMake(width, MAXFLOAT)
                                       options:option
@@ -226,14 +231,30 @@ static SLFCommonTools * tools = nil;
 }
 #pragma mark - 自适应宽高
 +(CGFloat)adaptiveWidth:(CGFloat)width {
-        return width*(kScreenW/375);
+//        return width*(kScreenW/375);
+    if (IS_IPHONE_Xs_Max || IS_IPHONE_Xr || IS_IPHONE_X || IS_IPHONE_Xs || kiPhone6Plus) {
+        return width/2.4;
+    }else if (kiPhone5 || kiPhone6) {
+        return width/2;
+    }else {
+        return width;
+    }
 }
 
 +(CGFloat)adaptiveHeight:(CGFloat)height {
-    if (IS_IPHONEX) {
-        return height*(kScreenH/812);
+//    if (IS_IPHONEX) {
+//        return height*(kScreenH/812);
+//    }else if (IS_IPHONE_Xs_Max) {
+//        return height*(kScreenH/896);
+//    }else {
+//        return height*(kScreenH/667);
+//    }
+    if (IS_IPHONE_Xs_Max || IS_IPHONE_Xr || IS_IPHONE_X || IS_IPHONE_Xs || kiPhone6Plus) {
+        return height/2.4;
+    }else if (kiPhone5 || kiPhone6) {
+        return height/2;
     }else {
-        return height*(kScreenH/667);
+        return height;
     }
 }
 
@@ -688,15 +709,15 @@ static SLFCommonTools * tools = nil;
     //    if (414 == kScreenW) {
     //        return [UIFont systemFontOfSize:size/3.0f];
     //    }else{
-    return [UIFont systemFontOfSize:kAH(size/2.0f)];//[UIFont systemFontOfSize:size/2.0f];
+    return [UIFont systemFontOfSize:kAH(size)];//[UIFont systemFontOfSize:size/2.0f];
     //    }
 }
 
 +(UIFont *)pxBoldFont:(CGFloat)size {
-    if (ISiPhone5) {
-        return [UIFont boldSystemFontOfSize:size/2.0f-1];
-    }
-    return [UIFont boldSystemFontOfSize:size/2.0f];
+//    if (ISiPhone5) {
+//        return [UIFont boldSystemFontOfSize:size/2.0f-1];
+//    }
+    return [UIFont boldSystemFontOfSize:kAH(size)];
 }
 
 +(NSMutableString *)hiddenPhone:(NSString *)phone {
@@ -920,21 +941,31 @@ static SLFCommonTools * tools = nil;
 
 +(void)setupSatuts:(UIViewController *)weak bai:(BOOL)bai {
     if (bai) {
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+//        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
         [weak.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
         [weak.navigationController.navigationBar setTintColor:[UIColor blackColor]];
-        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+//        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], UITextAttributeTextColor : [UIColor blackColor]}];
 //        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], NSFontAttributeName : [SLFCommonTools pxFont:44]}];
-
+        [WRNavigationBar wr_setDefaultNavBarTintColor:[UIColor blackColor]];
+        [weak wr_setNavBarTitleColor:[UIColor blackColor]];
+        [weak wr_setNavBarBarTintColor:[UIColor whiteColor]];
+        [weak wr_setStatusBarStyle:UIStatusBarStyleDefault];
     }else {
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-        [weak.navigationController.navigationBar setBarTintColor:[SLFCommonTools getNavBarColor]];
+//        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+        [weak.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
         [weak.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : kFFFFFF}];
+//        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], UITextAttributeTextColor : [UIColor whiteColor]}];
 //        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [SLFCommonTools getNavTintTextColor], NSFontAttributeName : [SLFCommonTools pxFont:44]}];
+        [WRNavigationBar wr_setDefaultNavBarTintColor:[UIColor whiteColor]];
+        [weak wr_setNavBarTitleColor:[UIColor whiteColor]];
+        [weak wr_setNavBarBarTintColor:[UIColor blackColor]];
+        [weak wr_setStatusBarStyle:UIStatusBarStyleLightContent];
+
 
     }
-    weak.navigationController.navigationBar.translucent= NO;
+    [WRNavigationBar wr_setDefaultNavBarShadowImageHidden:YES];
+
+    weak.navigationController.navigationBar.translucent = NO;
 }
 - (void)setupNavRightAndLeftBtn:(UIViewController *)weakSelf leftOrRight:(BOOL)state imageName:(NSString*)img titleName:(NSString*)title setWidth:(NSInteger)width{
 
