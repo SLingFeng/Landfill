@@ -517,6 +517,9 @@
 + (BOOL)stringContainsEmoji:(NSString *)string;
 
 + (NSString*)deviceModelName;
+
++ (UIImage *)startColor:(UIColor *)startColor endColor:(UIColor *)endColor;
+
 @end
 
 

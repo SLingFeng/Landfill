@@ -942,30 +942,36 @@ static SLFCommonTools * tools = nil;
 +(void)setupSatuts:(UIViewController *)weak bai:(BOOL)bai {
     if (bai) {
 //        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-        [weak.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-        [weak.navigationController.navigationBar setTintColor:[UIColor blackColor]];
+//        [weak.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+//        [weak.navigationController.navigationBar setTintColor:[UIColor blackColor]];
 //        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], UITextAttributeTextColor : [UIColor blackColor]}];
 //        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor], NSFontAttributeName : [SLFCommonTools pxFont:44]}];
-        [WRNavigationBar wr_setDefaultNavBarTintColor:[UIColor blackColor]];
-        [weak wr_setNavBarTitleColor:[UIColor blackColor]];
-        [weak wr_setNavBarBarTintColor:[UIColor whiteColor]];
-        [weak wr_setStatusBarStyle:UIStatusBarStyleDefault];
+        
+//        [WRNavigationBar wr_setDefaultNavBarTintColor:[UIColor blackColor]];
+//        [weak wr_setNavBarTitleColor:[UIColor blackColor]];
+//        [weak wr_setNavBarBarTintColor:[UIColor whiteColor]];
+//        [weak wr_setStatusBarStyle:UIStatusBarStyleDefault];
+//
+//        weak.hbd_barTintColor = [UIColor whiteColor];
+//        weak.hbd_tintColor = [UIColor blackColor];
     }else {
 //        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-        [weak.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
-        [weak.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+//        [weak.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
+//        [weak.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
 //        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], UITextAttributeTextColor : [UIColor whiteColor]}];
 //        [weak.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [SLFCommonTools getNavTintTextColor], NSFontAttributeName : [SLFCommonTools pxFont:44]}];
-        [WRNavigationBar wr_setDefaultNavBarTintColor:[UIColor whiteColor]];
-        [weak wr_setNavBarTitleColor:[UIColor whiteColor]];
-        [weak wr_setNavBarBarTintColor:[UIColor blackColor]];
-        [weak wr_setStatusBarStyle:UIStatusBarStyleLightContent];
+//        [WRNavigationBar wr_setDefaultNavBarTintColor:[UIColor whiteColor]];
+//        [weak wr_setNavBarTitleColor:[UIColor whiteColor]];
+//        [weak wr_setNavBarBarTintColor:[UIColor blackColor]];
+//        [weak wr_setStatusBarStyle:UIStatusBarStyleLightContent];
+//        weak.hbd_barTintColor = [UIColor blackColor];
+//        weak.hbd_tintColor = [UIColor whiteColor];
 
 
     }
-    [WRNavigationBar wr_setDefaultNavBarShadowImageHidden:YES];
-
-    weak.navigationController.navigationBar.translucent = NO;
+//    [WRNavigationBar wr_setDefaultNavBarShadowImageHidden:YES];
+//    weak.hbd_barShadowHidden = YES;
+//    weak.navigationController.navigationBar.translucent = NO;
 }
 - (void)setupNavRightAndLeftBtn:(UIViewController *)weakSelf leftOrRight:(BOOL)state imageName:(NSString*)img titleName:(NSString*)title setWidth:(NSInteger)width{
 
@@ -1618,6 +1624,65 @@ static SLFCommonTools * tools = nil;
         ||[deviceModel isEqualToString:@"iPad4,9"])      return @"iPad mini 3";
     
     return deviceModel;
+}
+
+
++ (UIImage *)startColor:(UIColor *)startColor endColor:(UIColor *)endColor {
+    //创建CGContextRef
+    UIGraphicsBeginImageContext(CGSizeMake(kAW(33), kAH(18)));
+    CGContextRef gc = UIGraphicsGetCurrentContext();
+    
+    //创建CGMutablePathRef
+    CGMutablePathRef path = CGPathCreateMutable();
+    
+    //绘制Path
+    CGRect rect = CGRectMake(0, 0, kAW(33), kAH(18));
+    CGPathMoveToPoint(path, NULL, CGRectGetMinX(rect), CGRectGetMinY(rect));
+    CGPathAddLineToPoint(path, NULL, CGRectGetMinX(rect), CGRectGetMaxY(rect));
+    CGPathAddLineToPoint(path, NULL, CGRectGetWidth(rect), CGRectGetMaxY(rect));
+    CGPathAddLineToPoint(path, NULL, CGRectGetWidth(rect), CGRectGetMinY(rect));
+    
+    CGPathCloseSubpath(path);
+    
+    //绘制渐变
+    [SLFCommonTools drawLinearGradient:gc path:path startColor:startColor.CGColor endColor:endColor.CGColor];
+    
+    //注意释放CGMutablePathRef
+    CGPathRelease(path);
+    
+    //从Context中获取图像，并显示在界面上
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return img;
+}
+
++ (void)drawLinearGradient:(CGContextRef)context
+                      path:(CGPathRef)path
+                startColor:(CGColorRef)startColor
+                  endColor:(CGColorRef)endColor
+{
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGFloat locations[] = { 0.0, 1.0 };
+    
+    NSArray *colors = @[(__bridge id) startColor, (__bridge id) endColor];
+    
+    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) colors, locations);
+    
+    
+    CGRect pathRect = CGPathGetBoundingBox(path);
+    
+    //具体方向可根据需求修改
+    CGPoint startPoint = CGPointMake(CGRectGetMinX(pathRect), CGRectGetMidY(pathRect));
+    CGPoint endPoint = CGPointMake(CGRectGetMaxX(pathRect), CGRectGetMidY(pathRect));
+    
+    CGContextSaveGState(context);
+    CGContextAddPath(context, path);
+    CGContextClip(context);
+    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
+    CGContextRestoreGState(context);
+    
+    CGGradientRelease(gradient);
+    CGColorSpaceRelease(colorSpace);
 }
 
 @end
