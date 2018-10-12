@@ -518,7 +518,7 @@
 
 + (NSString*)deviceModelName;
 
-+ (UIImage *)startColor:(UIColor *)startColor endColor:(UIColor *)endColor;
++ (UIImage *)startColor:(UIColor *)startColor endColor:(UIColor *)endColor rect:(CGRect)rect;
 
 @end
 

@@ -1627,16 +1627,16 @@ static SLFCommonTools * tools = nil;
 }
 
 
-+ (UIImage *)startColor:(UIColor *)startColor endColor:(UIColor *)endColor {
++ (UIImage *)startColor:(UIColor *)startColor endColor:(UIColor *)endColor rect:(CGRect)rect {
     //创建CGContextRef
-    UIGraphicsBeginImageContext(CGSizeMake(kAW(33), kAH(18)));
+    UIGraphicsBeginImageContext(rect.size);
     CGContextRef gc = UIGraphicsGetCurrentContext();
     
     //创建CGMutablePathRef
     CGMutablePathRef path = CGPathCreateMutable();
     
     //绘制Path
-    CGRect rect = CGRectMake(0, 0, kAW(33), kAH(18));
+//    CGRect rect = CGRectMake(0, 0, kAW(33), kAH(18));
     CGPathMoveToPoint(path, NULL, CGRectGetMinX(rect), CGRectGetMinY(rect));
     CGPathAddLineToPoint(path, NULL, CGRectGetMinX(rect), CGRectGetMaxY(rect));
     CGPathAddLineToPoint(path, NULL, CGRectGetWidth(rect), CGRectGetMaxY(rect));
