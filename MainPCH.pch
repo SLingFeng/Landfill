@@ -23,12 +23,23 @@
 #import <SDAutoLayout/UIView+SDAutoLayout.h>
 #import <SDAutoLayout/UITableView+SDAutoTableViewCellHeight.h>
 #import <JSONModel/JSONModel.h>
-#import <MJRefresh.h>
-#import <Masonry.h>
+#import "MJRefresh.h"
+#import "Masonry.h"
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import <WPAttributedMarkup/NSString+WPAttributedMarkup.h>
-#import <MBProgressHUD.h>
-#import <CYLTabBarController.h>
+#import "MBProgressHUD.h"
+#import "CYLTabBarController.h"
+#import <SDCycleScrollView/SDCycleScrollView.h>
+#import "IQKeyboardManager.h"
+//#import <JZNavigationExtension.h>
+//#import "MarqueeView.h"
+//#import "YZPullDownMenu.h"
+#import <ReactiveObjC/ReactiveObjC.h>
+//#import "WRNavigationBar.h"
+//#import <HBDNavigationBar/UIViewController+HBD.h>
+//#import <HBDNavigationBar/HBDNavigationController.h>
+#import "GVUserDefaults+SLFUserInfo.h"
+//#import <YPNavigationBarTransition/YPNavigationBarTransition.h>
 
 
 #pragma mark - 自定义库
@@ -47,13 +58,8 @@
 #import "BaseTextField.h"
 #import "SLFHUD.h"
 #import "MyLabel.h"
-#import "GVUserDefaults+SLFUserInfo.h"
-
 
 #pragma mark - 模型类
-
-
-
 
 #pragma mark - 九宫格
 #define JGG_X(xl,width,w,i,count) xl+(width+w)*(i%(count))
@@ -182,10 +188,7 @@
 #define ISiPhone6Plus  CGSizeEqualToSize([[UIScreen mainScreen] preferredMode].size, CGSizeMake(1242, 2208))
 
 // 判断iPhone X
-#define IS_IPHONEX (([[UIScreen mainScreen] bounds].size.height == 812) ? YES : NO)
-
-// 判断iPad
-#define     ISIPAD          (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//#define IS_IPHONEX (([[UIScreen mainScreen] bounds].size.height == 812) ? YES : NO)
 
 //判断是否是ipad
 #define isPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -214,9 +217,13 @@
 #define Height_NavBar ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 88.0 : 64.0)
 #define Height_TabBar ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 83.0 : 49.0)
 
+#define IS_LiuHai (IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES)
 
-#define iPhone_Top (IS_IPHONEX ? 44.0f : 20.0f)
-#define iPhone_Bottom (IS_IPHONEX ? 34.0f : 0.0f)
+#define iPhone_Top ((IS_IPHONE_X || IS_IPHONE_Xr || IS_IPHONE_Xs || IS_IPHONE_Xs_Max) ? 44.0f : 20.0f)
+#define iPhone_Bottom ((IS_IPHONE_X || IS_IPHONE_Xr || IS_IPHONE_Xs || IS_IPHONE_Xs_Max) ? 34.0f : 0.0f)
+//临时第三方导航sdk问题
+#define iPhone_TopTemp ((IS_IPHONE_X || IS_IPHONE_Xr || IS_IPHONE_Xs || IS_IPHONE_Xs_Max) ? 20.0f : 10.0f)
+#define iPhone_TopBarTemp ((IS_IPHONE_X || IS_IPHONE_Xr || IS_IPHONE_Xs || IS_IPHONE_Xs_Max) ? 88.0f : 64.0f)
 
 ///宽度适配 都根据ip6的像素
 #define kIP6_FitScreenWidth (width-10)*(kScreenW/320)

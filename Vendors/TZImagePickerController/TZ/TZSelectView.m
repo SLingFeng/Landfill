@@ -125,7 +125,7 @@ NSInteger const maxCountImage = 3;
     cell.backgroundColor = [UIColor clearColor];
     cell.videoImageView.hidden = YES;
     if (indexPath.row == _selectedPhotos.count) {
-        cell.imageView.image = [UIImage imageNamed:@"list_btn_add"];
+        cell.imageView.image = [UIImage imageNamed:@"photo"];
         cell.deleteBtn.hidden = YES;
     } else {
         cell.imageView.image = _selectedPhotos[indexPath.row];
@@ -144,13 +144,13 @@ NSInteger const maxCountImage = 3;
 - (void)deleteBtnClik:(UIButton *)sender {
     [_selectedPhotos removeObjectAtIndex:sender.tag];
     [_selectedAssets removeObjectAtIndex:sender.tag];
-    
-    [_collectionView performBatchUpdates:^{
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:sender.tag inSection:0];
-        [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
-    } completion:^(BOOL finished) {
-        [_collectionView reloadData];
-    }];
+    [_collectionView reloadData];
+//    [_collectionView performBatchUpdates:^{
+//        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:sender.tag inSection:0];
+//        [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
+//    } completion:^(BOOL finished) {
+//        [_collectionView reloadData];
+//    }];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -299,7 +299,7 @@ NSInteger const maxCountImage = 3;
         
         __block NSMutableArray * weakAssets = self.selectedAssets;
         __block NSMutableArray * weakPhotos = self.selectedPhotos;
-        kWeakObj(weakObj, self.collectionView);
+        kWeakSelf(weakSelf);
         
         // save photo and get asset / 保存图片，获取到asset
         [[TZImageManager manager] savePhotoWithImage:image completion:^(NSError *error){
@@ -316,7 +316,7 @@ NSInteger const maxCountImage = 3;
                         }
                         [weakAssets addObject:assetModel.asset];
                         [weakPhotos addObject:image];
-                        [weakObj reloadData];
+                        [weakSelf.collectionView reloadData];
                     }];
                 }];
             }
@@ -356,12 +356,12 @@ NSInteger const maxCountImage = 3;
         if (iOS8Later) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         } else {
-            NSURL *privacyUrl;
-            if (alertView.tag == 1) {
-                privacyUrl = [NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"];
-            } else {
-                privacyUrl = [NSURL URLWithString:@"prefs:root=Privacy&path=CAMERA"];
-            }
+            NSURL *privacyUrl = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+//            if (alertView.tag == 1) {
+//                privacyUrl = [NSURL URLWithString:@"prefs:root=Privacy&path=PHOTOS"];
+//            } else {
+//                privacyUrl = [NSURL URLWithString:@"prefs:root=Privacy&path=CAMERA"];
+//            }
             if ([[UIApplication sharedApplication] canOpenURL:privacyUrl]) {
                 [[UIApplication sharedApplication] openURL:privacyUrl];
             } else {

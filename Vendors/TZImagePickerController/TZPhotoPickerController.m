@@ -585,7 +585,7 @@ static CGSize AssetGridThumbnailSize;
         if (iOS8Later) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         } else {
-            NSURL *privacyUrl = [NSURL URLWithString:@"prefs:root=Privacy&path=CAMERA"];
+            NSURL *privacyUrl = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
             if ([[UIApplication sharedApplication] canOpenURL:privacyUrl]) {
                 [[UIApplication sharedApplication] openURL:privacyUrl];
             } else {

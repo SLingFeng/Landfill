@@ -27,9 +27,16 @@
 }
 
 -(void)createToTitle:(NSString *)titleText placeholder:(NSString *)placeholderText image:(NSString *)image custom:(UIView *)custom {
-    self.layer.cornerRadius = 7.5f;
-    self.layer.masksToBounds = 1;
-    self.backgroundColor = [UIColor whiteColor];
+//    self.layer.cornerRadius = 7.5f;
+//    self.layer.masksToBounds = 1;
+//    self.backgroundColor = [UIColor whiteColor];
+    UIView *line = [[UIView alloc] init];
+    [self addSubview:line];
+    line.backgroundColor = kF5F5F5;
+    [line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.left.right.offset(0);
+        make.height.mas_equalTo(0.5);
+    }];
     
     kWeakSelf(weakSelf);
     UIImageView * imageView = nil;
@@ -57,7 +64,7 @@
     _TextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     
     MyLabel * title = nil;
-    if (titleText != nil || ![titleText isEqualToString:@""]) {
+    if (!kStringIsEmpty(titleText)) {
         title = [[MyLabel alloc] init];
         title.text = titleText;
         title.font = [SLFCommonTools pxFont:30];
@@ -95,22 +102,26 @@
             make.centerY.equalTo(weakSelf);
             if (title != nil) {
                 make.left.equalTo(title.mas_right).with.offset(5);
-            }else {
+            }else if (imageView != nil) {
                 make.left.equalTo(imageView.mas_right).with.offset(5);
+            }else {
+                make.left.offset(0);
             }
             make.right.equalTo(custom.mas_left).with.offset(1);
-            make.height.mas_equalTo(kAH(40));
+            make.top.bottom.offset(0);
         }];
     }else {
         [_TextField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(weakSelf);
             if (title != nil) {
                 make.left.equalTo(title.mas_right).with.offset(5);
-            }else {
+            }else if (imageView != nil) {
                 make.left.equalTo(imageView.mas_right).with.offset(5);
+            }else {
+                make.left.offset(0);
             }
             make.right.equalTo(weakSelf.mas_right).with.offset(-1);
-            make.height.mas_equalTo(kAH(40));
+            make.top.bottom.offset(0);
         }];
     }
 }
@@ -284,9 +295,9 @@
         CGFloat w = kScreenW / titles.count;
         //        [CommonTools line:self y:40 space:0 color:kLineColor lineW:0.5];
 //        [SLFCommonTools line:self y:40 leftSpace:0 rightSpace:kScreenW-45 color:kLineColor lineW:0.5];
-        UIImageView * select = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"登录选择状态"]];
+        UIImageView * select = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
         [self addSubview:select];
-        select.backgroundColor = HEXCOLOR(0xFB2A27);
+        select.backgroundColor = kBED500;
         _selectView = select;
         
         _btnArr = [NSMutableArray arrayWithCapacity:titles.count];
@@ -298,8 +309,8 @@
             
             btn.titleLabel.font = [SLFCommonTools pxFont:32];
             [btn setTitle:titles[i] forState:(UIControlStateNormal)];
-            [btn setTitleColor:[SLFCommonTools colorHex:@"#bfbfbf"] forState:(UIControlStateNormal)];
-            [btn setTitleColor:[SLFCommonTools colorHex:@"#ff0000"] forState:(UIControlStateSelected)];
+            [btn setTitleColor:self.btnTextColor forState:(UIControlStateNormal)];
+            [btn setTitleColor:self.selcectBtnTextColor forState:(UIControlStateSelected)];
             [btn addTarget:self action:@selector(selectClassClick:) forControlEvents:(UIControlEventTouchUpInside)];
             
             btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 15);
@@ -319,7 +330,7 @@
             if (i == 0) {
                 btn.selected = 1;
                 _lastBtn = btn;
-                select.sd_layout.bottomSpaceToView(self, 3).widthIs(100).heightIs(7.5).centerXEqualToView(btn);
+                select.sd_layout.bottomSpaceToView(self, 1).widthIs(65).heightIs(3).centerXEqualToView(btn);
             }
             l = btn;
             [_btnArr addObject:btn];
@@ -329,6 +340,19 @@
     return self;
 }
 
+- (void)setBtnTextColor:(UIColor *)btnTextColor {
+    _btnTextColor = btnTextColor;
+    for (UIButton *b in _btnArr) {
+        [b setTitleColor:self.btnTextColor forState:(UIControlStateNormal)];
+    }
+}
+
+- (void)setSelcectBtnTextColor:(UIColor *)selcectBtnTextColor {
+    _selcectBtnTextColor = selcectBtnTextColor;
+    for (UIButton *b in _btnArr) {
+        [b setTitleColor:self.selcectBtnTextColor forState:(UIControlStateSelected)];
+    }
+}
 
 
 -(void)selectClassClick:(UIButton *)btn {
@@ -340,10 +364,16 @@
         b.selected = NO;
     }
     _lastBtn = btn;
+    self.isSelectBtn = btn.tag - 10;
     if (self.selectBtnClick) {
         self.selectBtnClick(btn.tag-10);
     }
-    _selectView.centerX = btn.centerX;
+    [UIView animateWithDuration:0.3 animations:^{
+        CGPoint p = self->_selectView.center;
+        p.x = btn.centerX;
+        self->_selectView.center = p;
+//        self->_selectView.centerX = btn.centerX;
+    }];
     btn.selected = YES;
     
     if (btn.tag == 10) {
@@ -355,6 +385,21 @@
         UIButton * tempBtn = [self viewWithTag:10];
         tempBtn.selected = NO;
     }
+}
+
+- (void)setIsSelectBtn:(NSInteger)isSelectBtn {
+    _isSelectBtn = isSelectBtn;
+    for (UIButton *b in _btnArr) {
+        b.selected = NO;
+    }
+    UIButton * btn = [self viewWithTag:_isSelectBtn + 10];
+    btn.selected = 1;
+//    _selectView.centerX = btn.centerX;
+    [UIView animateWithDuration:0.3 animations:^{
+        CGPoint p = self->_selectView.center;
+        p.x = btn.centerX;
+        self->_selectView.center = p;
+    }];
 }
 
 -(instancetype)initWithSelect:(NSString *)titleText {

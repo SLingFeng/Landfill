@@ -15,8 +15,8 @@
 #ifdef DEBUG
 //测试
 //#define kURL_I @"http://192.168.0.150:8080"
-#define kURL_I @"http://api.yogobei.com"
-#define kURL [NSString stringWithFormat:@"%@/", kURL_I]
+#define kURL_I @"http://new.ganxu.wang"
+#define kURL [NSString stringWithFormat:@"%@/index.php?m=Api&", kURL_I]
 #else
 //正式
 #define kURL_I @"http://api.yogobei.com:8080"
@@ -33,6 +33,7 @@
 
 
 #define kURL_app(_other) [NSString stringWithFormat:@"%@%@", kURL, _other]
+#define kURL_Urlstring(_url) [NSURL URLWithString:[NSString stringWithFormat:@"%@", _url]]
 
 //banner
 #define kURL_Banner_Str(_url) [NSString stringWithFormat:@"%@/image/%@", kURL, _url]
@@ -52,6 +53,7 @@
 //上传压缩率
 #define kQuality 1
 
+#define HttpA(_url) [NSString stringWithFormat:@"%@%@", kURL, _url]
 
 
 #endif /* APIHeader_pch */
