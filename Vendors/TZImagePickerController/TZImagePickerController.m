@@ -19,7 +19,6 @@
     UILabel *_tipLabel;
     UIButton *_settingBtn;
     BOOL _pushPhotoPickerVc;
-    BOOL _didPushPhotoPickerVc;
     
     UIButton *_progressHUD;
     UIView *_HUDContainer;
@@ -31,6 +30,8 @@
 /// Default is 4, Use in photos collectionView in TZPhotoPickerController
 /// 默认4列, TZPhotoPickerController中的照片collectionView
 @property (nonatomic, assign) NSInteger columnNumber;
+@property (nonatomic, assign) BOOL didPushPhotoPickerVc;
+
 @end
 
 @implementation TZImagePickerController
@@ -262,6 +263,7 @@
 }
 
 - (void)pushPhotoPickerVc {
+    kWeakSelf(weakSelf);
     _didPushPhotoPickerVc = NO;
     // 1.6.8 判断是否需要push到照片选择页，如果_pushPhotoPickerVc为NO,则不push
     if (!_didPushPhotoPickerVc && _pushPhotoPickerVc) {
@@ -270,8 +272,8 @@
         photoPickerVc.columnNumber = self.columnNumber;
         [[TZImageManager manager] getCameraRollAlbum:self.allowPickingVideo allowPickingImage:self.allowPickingImage completion:^(TZAlbumModel *model) {
             photoPickerVc.model = model;
-            [self pushViewController:photoPickerVc animated:YES];
-            _didPushPhotoPickerVc = YES;
+            [weakSelf pushViewController:photoPickerVc animated:YES];
+            weakSelf.didPushPhotoPickerVc = YES;
         }];
     }
 }
@@ -498,8 +500,8 @@
 
 
 @interface TZAlbumPickerController ()<UITableViewDataSource,UITableViewDelegate> {
-    UITableView *_tableView;
 }
+@property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *albumArr;
 @end
 
@@ -536,13 +538,14 @@
 }
 
 - (void)configTableView {
+    kWeakSelf(weakSelf);
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
     [[TZImageManager manager] getAllAlbums:imagePickerVc.allowPickingVideo allowPickingImage:imagePickerVc.allowPickingImage completion:^(NSArray<TZAlbumModel *> *models) {
-        _albumArr = [NSMutableArray arrayWithArray:models];
-        for (TZAlbumModel *albumModel in _albumArr) {
+        weakSelf.albumArr = [NSMutableArray arrayWithArray:models];
+        for (TZAlbumModel *albumModel in weakSelf.albumArr) {
             albumModel.selectedModels = imagePickerVc.selectedModels;
         }
-        if (!_tableView) {
+        if (!weakSelf.tableView) {
             
             CGFloat top = 0;
             CGFloat tableViewHeight = 0;
@@ -556,15 +559,15 @@
                 tableViewHeight = self.view.tz_height - navigationHeight;
             }
 
-            _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, top, self.view.tz_width, tableViewHeight) style:UITableViewStylePlain];
-            _tableView.rowHeight = 70;
-            _tableView.tableFooterView = [[UIView alloc] init];
-            _tableView.dataSource = self;
-            _tableView.delegate = self;
-            [_tableView registerClass:[TZAlbumCell class] forCellReuseIdentifier:@"TZAlbumCell"];
-            [self.view addSubview:_tableView];
+            weakSelf.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, top, self.view.tz_width, tableViewHeight) style:UITableViewStylePlain];
+            weakSelf.tableView.rowHeight = 70;
+            weakSelf.tableView.tableFooterView = [[UIView alloc] init];
+            weakSelf.tableView.dataSource = weakSelf;
+            weakSelf.tableView.delegate = weakSelf;
+            [weakSelf.tableView registerClass:[TZAlbumCell class] forCellReuseIdentifier:@"TZAlbumCell"];
+            [weakSelf.view addSubview:weakSelf.tableView];
         } else {
-            [_tableView reloadData];
+            [weakSelf.tableView reloadData];
         }
     }];
 }

@@ -89,7 +89,7 @@ NSInteger const maxCountImage = 3;
     // 如不需要长按排序效果，将LxGridViewFlowLayout类改成UICollectionViewFlowLayout即可
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     _margin = kAW(10);
-    _itemWH = kAW(80);//((kScreenW-30) - 2 * _margin - 4) / 3 - _margin;
+    _itemWH = (kScreenW - 60) / 3;//((kScreenW-30) - 2 * _margin - 4) / 3 - _margin;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout.itemSize = CGSizeMake(_itemWH, _itemWH);//[SLFCommonTools heightScale4_3:_itemWH]);
     self.tzHeight = _itemWH;//[SLFCommonTools heightScale4_3:_itemWH];

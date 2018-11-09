@@ -17,7 +17,6 @@
 #import "TZGifPhotoPreviewController.h"
 
 @interface TZPhotoPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate> {
-    NSMutableArray *_models;
     
     UIButton *_previewButton;
     UIButton *_doneButton;
@@ -30,6 +29,7 @@
     BOOL _showTakePhotoBtn;
 }
 @property CGRect previousPreheatRect;
+@property (nonatomic, retain) NSMutableArray *models;
 @property (nonatomic, assign) BOOL isSelectOriginalPhoto;
 @property (nonatomic, strong) TZCollectionView *collectionView;
 @property (nonatomic, strong) UIImagePickerController *imagePickerVc;
@@ -64,6 +64,7 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    kWeakSelf(weakSelf);
     TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
     _isSelectOriginalPhoto = tzImagePickerVc.isSelectOriginalPhoto;
     _shouldScrollToBottom = YES;
@@ -74,17 +75,17 @@ static CGSize AssetGridThumbnailSize;
     if (!tzImagePickerVc.sortAscendingByModificationDate && _isFirstAppear && iOS8Later) {
         [[TZImageManager manager] getCameraRollAlbum:tzImagePickerVc.allowPickingVideo allowPickingImage:tzImagePickerVc.allowPickingImage completion:^(TZAlbumModel *model) {
             _model = model;
-            _models = [NSMutableArray arrayWithArray:_model.models];
+            weakSelf.models = [NSMutableArray arrayWithArray:_model.models];
             [self initSubviews];
         }];
     } else {
         if (_showTakePhotoBtn || !iOS8Later || _isFirstAppear) {
             [[TZImageManager manager] getAssetsFromFetchResult:_model.result allowPickingVideo:tzImagePickerVc.allowPickingVideo allowPickingImage:tzImagePickerVc.allowPickingImage completion:^(NSArray<TZAssetModel *> *models) {
-                _models = [NSMutableArray arrayWithArray:models];
+                weakSelf.models = [NSMutableArray arrayWithArray:models];
                 [self initSubviews];
             }];
         } else {
-            _models = [NSMutableArray arrayWithArray:_model.models];
+            weakSelf.models = [NSMutableArray arrayWithArray:_model.models];
             [self initSubviews];
         }
     }
