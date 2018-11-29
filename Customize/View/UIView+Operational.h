@@ -8,15 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+//NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^CQ_ViewTappedBlock)(void);
 typedef void(^CQ_SubViewBlock)(NSInteger index);
+typedef void(^LF_ViewTappedIDBlock)(id any);
+typedef void(^LF_TapObjIDBlock)(id any, NSInteger index);
 @interface UIView (Operational)
 /** 单击手势事件回调的block */
 @property (nonatomic, copy) CQ_ViewTappedBlock cq_viewTappedBlock;
 //子试图 点击
 @property (nonatomic, copy) CQ_SubViewBlock cq_subViewBlock;
+//传递值
+@property (nonatomic, copy) LF_ViewTappedIDBlock lf_ViewTappedIDBlock;
+
+@property (nonatomic, copy) LF_TapObjIDBlock lF_TapObjIDBlock;
+
+@property (nonatomic, retain) UITapGestureRecognizer *tapGesture;
+
 /**
  与单击手势绑定的block
  
@@ -26,4 +35,4 @@ typedef void(^CQ_SubViewBlock)(NSInteger index);
 
 @end
 
-NS_ASSUME_NONNULL_END
+//NS_ASSUME_NONNULL_END

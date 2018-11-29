@@ -92,4 +92,33 @@
     UIGraphicsEndImageContext();
     return theImage;
 }
+
+/**
+ *  重新绘制图片
+ *
+ *  @param color 填充色
+ *
+ *  @return UIImage
+ */
+- (UIImage *)imageWithColor:(UIColor *)color
+{
+    UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextTranslateCTM(context, 0, self.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextSetBlendMode(context, kCGBlendModeNormal);
+    CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+    CGContextClipToMask(context, rect, self.CGImage);
+    [color setFill];
+    CGContextFillRect(context, rect);
+    UIImage*newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+//---------------------
+//作者：徐天宇
+//来源：CSDN
+//原文：https://blog.csdn.net/xutianyu930818/article/details/50788268
+//版权声明：本文为博主原创文章，转载请附上博文链接！
 @end
