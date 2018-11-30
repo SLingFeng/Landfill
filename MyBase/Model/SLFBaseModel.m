@@ -159,11 +159,11 @@ void checkEntity(NSObject *object) {
 }
 
 - (BOOL)saveAppConfig:(NSString *)name {
-    return [NSKeyedArchiver archiveRootObject:self toFile:[NSHomeDirectory() stringByAppendingFormat:@"%@", [SLFBaseModel getPaht:name]]];
+    return [NSKeyedArchiver archiveRootObject:self toFile:[SLFBaseModel getPaht:name]];
 }
 
 - (instancetype)readData:(NSString *)name {
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:[NSHomeDirectory() stringByAppendingFormat:@"%@", [SLFBaseModel getPaht:name]]];
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:[SLFBaseModel getPaht:name]];
 }
 
 @end
