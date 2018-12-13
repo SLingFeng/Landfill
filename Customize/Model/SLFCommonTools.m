@@ -9,8 +9,8 @@
 #import <sys/utsname.h>
 
 
-//#import "LA_HomeViewController.h"
-//#import "LA_ActivityViewController.h"
+#import "GX_LoginPhoneViewController.h"
+#import "YL_MainTabBarConfig.h"
 //#import "LA_MineViewController.h"
 
 static SLFCommonTools * tools = nil;
@@ -93,23 +93,28 @@ static SLFCommonTools * tools = nil;
 ////                      celNav,
 //                      mineNav];
 //    [tabbarController setViewControllers:vcs];
-//    if (nil == window) {
-//        window = [UIApplication sharedApplication].keyWindow;
-//        window.rootViewController = tabbarController;
-//    }else {
-//        window.rootViewController = tabbarController;
-//    }
-//    
+    if (nil == window) {
+        window = [UIApplication sharedApplication].keyWindow;
+        window.rootViewController = [YL_MainTabBarConfig getMainTabBarViewController];
+    }else {
+        window.rootViewController = [YL_MainTabBarConfig getMainTabBarViewController];
+    }
+//
 }
 
-+ (void)exit {
++ (void)toLogin {
 //    [UIView transitionWithView:[UIApplication sharedApplication].keyWindow duration:1.0f options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
 //        BOOL oldState = [UIView areAnimationsEnabled];
 //        [UIView setAnimationsEnabled:NO];
-//        [UIApplication sharedApplication].keyWindow.rootViewController = [[YL_MainNavgationController alloc] initWithRootViewController:[[FY_LoginViewController alloc] init]];
+        [UIApplication sharedApplication].keyWindow.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[GX_LoginPhoneViewController alloc] init]];
 //        [UIView setAnimationsEnabled:oldState];
 //    } completion:^(BOOL finished) {
 //    }];
+}
+
++ (void)showLoginVC:(UIViewController *)vc {
+    [vc presentViewController:[[UINavigationController alloc] initWithRootViewController:[[GX_LoginPhoneViewController alloc] initWithObj:@"1"]] animated:1 completion:nil];
+    
 }
 
 //查找当前vc
@@ -232,13 +237,13 @@ static SLFCommonTools * tools = nil;
 #pragma mark - 自适应宽高
 +(CGFloat)adaptiveWidth:(CGFloat)width {
 //        return width*(kScreenW/375);
-    if (IS_IPHONE_Xs_Max || IS_IPHONE_Xr || IS_IPHONE_X || IS_IPHONE_Xs || kiPhone6Plus) {
-        return width/2.4;
-    }else if (kiPhone5 || kiPhone6) {
+//    if (IS_IPHONE_Xs_Max || IS_IPHONE_Xr || IS_IPHONE_X || IS_IPHONE_Xs || kiPhone6Plus) {
+//        return width/2;
+//    }else if (kiPhone5 || kiPhone6) {
         return width/2;
-    }else {
-        return width;
-    }
+//    }else {
+//        return width;
+//    }
 }
 
 +(CGFloat)adaptiveHeight:(CGFloat)height {
@@ -249,13 +254,13 @@ static SLFCommonTools * tools = nil;
 //    }else {
 //        return height*(kScreenH/667);
 //    }
-    if (IS_IPHONE_Xs_Max || IS_IPHONE_Xr || IS_IPHONE_X || IS_IPHONE_Xs || kiPhone6Plus) {
-        return height/2.4;
-    }else if (kiPhone5 || kiPhone6) {
+//    if (IS_IPHONE_Xs_Max || IS_IPHONE_Xr || IS_IPHONE_X || IS_IPHONE_Xs || kiPhone6Plus) {
+//        return height/2;
+//    }else if (kiPhone5 || kiPhone6) {
         return height/2;
-    }else {
-        return height;
-    }
+//    }else {
+//        return height;
+//    }
 }
 
 #pragma mark - 比例
@@ -265,6 +270,15 @@ static SLFCommonTools * tools = nil;
 
 +(CGFloat)widthScale4_3:(CGFloat)height {
     return height/3*4;
+}
+
++(CGFloat)heightScale16_9:(CGFloat)width {
+    CGFloat h = width/16*9;
+    return h;
+}
+
++(CGFloat)heightScaleTo:(CGFloat)scale width:(CGFloat)width {
+    return width/scale;
 }
 
 #pragma mark - 颜色
@@ -511,7 +525,7 @@ static SLFCommonTools * tools = nil;
     [shapeLayer setLineJoin:kCALineJoinRound];
     
     // 3=线的宽度 1=每条线的间距
-    //    [shapeLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:3], [NSNumber numberWithInt:3], nil]];
+        [shapeLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:3], [NSNumber numberWithInt:3], nil]];
     
     // Setup the path
     CGMutablePathRef path = CGPathCreateMutable();
@@ -924,9 +938,9 @@ static SLFCommonTools * tools = nil;
         //自定义返回按钮
         UIImage *backButtonImage = nil;
         if (bai) {
-            backButtonImage = [[UIImage imageNamed:@"back"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+            backButtonImage = [[UIImage imageNamed:@"header_back_icon"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
         }else {
-            backButtonImage = [[UIImage imageNamed:@"back"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+            backButtonImage = [[UIImage imageNamed:@"header_back_icon"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
         }
         //    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:backButtonImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
         [[UINavigationBar appearance] setBackIndicatorImage:backButtonImage];
@@ -1683,6 +1697,78 @@ static SLFCommonTools * tools = nil;
     
     CGGradientRelease(gradient);
     CGColorSpaceRelease(colorSpace);
+}
+
+//密码
++ (BOOL)validatePassword:(NSString *)passWord {
+    NSString *passWordRegex = @"^[a-zA-Z0-9]{8,20}+$";
+    NSPredicate *passWordPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",passWordRegex];
+    return [passWordPredicate evaluateWithObject:passWord];
+}
+
++ (NSURL *)judgeUrlImage:(NSString *)urlStr {
+//    NSLog(@"judgeUrlImage:%@", urlStr);
+//    return [NSURL URLWithString:@"http://cc.cocimg.com/api/uploads/181130/1ba979efea55db8d71973bdbacc3c8be.jpg"];
+    if ([urlStr hasPrefix:@"http://"]) {
+        return [NSURL URLWithString:urlStr];
+    }else {
+        return [NSURL URLWithString:[NSString stringWithFormat:@"http://new.ganxu.wang%@", urlStr]];
+    }
+}
+
+/**
+ 比较两个版本号的大小
+ 
+ @param v1 第一个版本号
+ @param v2 第二个版本号
+ @return 版本号相等,返回0; v1小于v2,返回-1; 否则返回1.
+ */
++ (NSInteger)compareVersion:(NSString *)v1 to:(NSString *)v2 {
+    // 都为空，相等，返回0
+    if (!v1 && !v2) {
+        return 0;
+    }
+    
+    // v1为空，v2不为空，返回-1
+    if (!v1 && v2) {
+        return -1;
+    }
+    
+    // v2为空，v1不为空，返回1
+    if (v1 && !v2) {
+        return 1;
+    }
+    
+    // 获取版本号字段
+    NSArray *v1Array = [v1 componentsSeparatedByString:@"."];
+    NSArray *v2Array = [v2 componentsSeparatedByString:@"."];
+    // 取字段最少的，进行循环比较
+    NSInteger smallCount = (v1Array.count > v2Array.count) ? v2Array.count : v1Array.count;
+    
+    for (int i = 0; i < smallCount; i++) {
+        NSInteger value1 = [[v1Array objectAtIndex:i] integerValue];
+        NSInteger value2 = [[v2Array objectAtIndex:i] integerValue];
+        if (value1 > value2) {
+            // v1版本字段大于v2版本字段，返回1
+            return 1;
+        } else if (value1 < value2) {
+            // v2版本字段大于v1版本字段，返回-1
+            return -1;
+        }
+        
+        // 版本相等，继续循环。
+    }
+    
+    // 版本可比较字段相等，则字段多的版本高于字段少的版本。
+    if (v1Array.count > v2Array.count) {
+        return 1;
+    } else if (v1Array.count < v2Array.count) {
+        return -1;
+    } else {
+        return 0;
+    }
+    
+    return 0;
 }
 
 @end

@@ -19,7 +19,9 @@
  */
 +(void)setupTabbarViewControllers:(UIWindow *)window;
 
-+ (void)exit;
++ (void)toLogin;
+
++ (void)showLoginVC:(UIViewController *)vc;
 /**
  查找当前vc
  
@@ -330,6 +332,11 @@
  @return 计算后的4：3宽度
  */
 +(CGFloat)widthScale4_3:(CGFloat)height;
+
++(CGFloat)heightScale16_9:(CGFloat)width;
+
++(CGFloat)heightScaleTo:(CGFloat)scale width:(CGFloat)width;
+
 #pragma mark - 转换 字体
 /**
  把px大小 转换成系统字体大小
@@ -519,6 +526,20 @@
 + (NSString*)deviceModelName;
 
 + (UIImage *)startColor:(UIColor *)startColor endColor:(UIColor *)endColor rect:(CGRect)rect;
+
+//密码
++ (BOOL)validatePassword:(NSString *)passWord;
+
++ (NSURL *)judgeUrlImage:(NSString *)urlStr;
+
+/**
+ 比较两个版本号的大小
+ 
+ @param v1 第一个版本号
+ @param v2 第二个版本号
+ @return 版本号相等,返回0; v1小于v2,返回-1; 否则返回1.
+ */
++ (NSInteger)compareVersion:(NSString *)v1 to:(NSString *)v2;
 
 @end
 
