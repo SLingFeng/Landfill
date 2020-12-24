@@ -541,6 +541,7 @@
  */
 + (NSInteger)compareVersion:(NSString *)v1 to:(NSString *)v2;
 
+//20201224
++(CGFloat)getStatusBarHeight;
+
 @end
-
-
