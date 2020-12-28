@@ -1772,7 +1772,7 @@ static SLFCommonTools * tools = nil;
 }
 //20201224
 +(CGFloat)getStatusBarHeight {
-    CGFloat safeAreaStatusHeight = 44;
+    CGFloat safeAreaStatusHeight = 20;
     if (@available(iOS 13.0, *)) {
         UIStatusBarManager *statusBarManager = [UIApplication sharedApplication].windows.firstObject.windowScene.statusBarManager;
         safeAreaStatusHeight = statusBarManager.statusBarFrame.size.height;
@@ -1785,33 +1785,39 @@ static SLFCommonTools * tools = nil;
     } else {
         safeAreaStatusHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     }
-//    获取 CGFloat height = [[UIApplication sharedApplication] statusBarFrame].size.height;
-//    iPhone 12 Pro Max： 47
-//    iPhone 12 Pro： 47
-//    iPhone 12： 47
-//    iPhone 12 mini： 44
-//    iPhone 11 Pro Max： 44
-//    iPhone 11 Pro： 44
-//    iPhone 11： 48
-//    iPhone Xs Max： 44
-//    iPhone Xs： 44
-//    iPhone XR： 44
-//    iPhone X： 44
-//    iPhone 8 Plus： 20
-//    iPhone 8： 20
-//    iPhone SE2 ：20
-    if (safeAreaStatusHeight == 0) {
-//        (iPhoneX ? 88 : 64)
-        if (iPhoneX) {
-            safeAreaStatusHeight = 44 + 44;
-        }else {
-            safeAreaStatusHeight = 44 + 20;
-        }
-    }else {
-        safeAreaStatusHeight += 44;
-    }
     
     return safeAreaStatusHeight;
+}
+
++(CGFloat)getNavBarHeight {
+    CGFloat safeAreaNavHeight = 44;
+    safeAreaNavHeight = [self getStatusBarHeight];
+    //    获取 CGFloat height = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    //    iPhone 12 Pro Max： 47
+    //    iPhone 12 Pro： 47
+    //    iPhone 12： 47
+    //    iPhone 12 mini： 44
+    //    iPhone 11 Pro Max： 44
+    //    iPhone 11 Pro： 44
+    //    iPhone 11： 48
+    //    iPhone Xs Max： 44
+    //    iPhone Xs： 44
+    //    iPhone XR： 44
+    //    iPhone X： 44
+    //    iPhone 8 Plus： 20
+    //    iPhone 8： 20
+    //    iPhone SE2 ：20
+    if (safeAreaNavHeight == 0) {
+        //        (iPhoneX ? 88 : 64)
+        if (iPhoneX) {
+            safeAreaNavHeight = 44 + 44;
+        }else {
+            safeAreaNavHeight = 44 + 20;
+        }
+    }else {
+        safeAreaNavHeight += 44;
+    }
+    return safeAreaNavHeight;
 }
 
 @end

@@ -543,5 +543,6 @@
 
 //20201224
 +(CGFloat)getStatusBarHeight;
++(CGFloat)getNavBarHeight;
 
 @end
