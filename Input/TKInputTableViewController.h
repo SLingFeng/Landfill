@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TKInputTableViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, retain) UITableView *tableView;
 
-@property (nonatomic, retain) NSMutableArray *addModelArr;
+@property (nonatomic, retain) NSMutableArray *modelArr;
 ///不可重写
 - (void)setUI;
 @end

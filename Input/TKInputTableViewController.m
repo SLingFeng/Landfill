@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.addModelArr = [NSMutableArray arrayWithCapacity:10];
+    self.modelArr = [NSMutableArray arrayWithCapacity:10];
 
     
 }
@@ -42,12 +42,12 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.addModelArr.count;
+    return self.modelArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return [self.addModelArr[section] count];
+    return [self.modelArr[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -60,7 +60,7 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    TKInputModel *model = self.addModelArr[indexPath.section][indexPath.row];
+    TKInputModel *model = self.modelArr[indexPath.section][indexPath.row];
     return model.cellHeight;
 }
 
@@ -68,14 +68,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
         
-    TKInputModel * model = self.addModelArr[indexPath.section][indexPath.row];
+    TKInputModel * model = self.modelArr[indexPath.section][indexPath.row];
     if (model.cellDidClick) {
         model.cellDidClick([tableView cellForRowAtIndexPath:indexPath]);
     }
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    TKInputModel * model = self.addModelArr[indexPath.section][indexPath.row];
+    TKInputModel * model = self.modelArr[indexPath.section][indexPath.row];
     if (model.cellDidClick) {
         return 1;
     }
@@ -84,12 +84,12 @@
 
 //组头文字提示
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    TKInputModel *model = [self.addModelArr[section] firstObject];
+    TKInputModel *model = [self.modelArr[section] firstObject];
     return model.titleForHeaderInSection;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    TKInputModel *model = [self.addModelArr[section] firstObject];
+    TKInputModel *model = [self.modelArr[section] firstObject];
     if (kStringIsEmpty(model.titleForHeaderInSection)) {
         return 0;
     }
@@ -133,7 +133,7 @@
 //- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 //    
 //    TKInputTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TKInputTableViewCell"];
-//    TKInputModel * model = self.addModelArr[indexPath.section][indexPath.row];
+//    TKInputModel * model = self.modelArr[indexPath.section][indexPath.row];
 //    
 //    cell.model = model;
 //    
@@ -142,7 +142,7 @@
 /////最后一行加上线
 //- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
 //    
-//    if (section == self.addModelArr.count - 1) {
+//    if (section == self.modelArr.count - 1) {
 //        UIView *view = [[UIView alloc] init];
 //        view.backgroundColor = [UIColor whiteColor];
 //
@@ -155,7 +155,7 @@
 //}
 //
 //- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-//    if (section == self.addModelArr.count - 1) {
+//    if (section == self.modelArr.count - 1) {
 //        return 10;
 //    }
 //    return 0;
