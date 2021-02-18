@@ -84,8 +84,11 @@
 
 //组头文字提示
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    TKInputModel *model = [self.modelArr[section] firstObject];
-    return model.titleForHeaderInSection;
+    if (self.modelArr.count > section) {
+        TKInputModel *model = [self.modelArr[section] firstObject];
+        return model.titleForHeaderInSection;
+    }
+    return nil;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
